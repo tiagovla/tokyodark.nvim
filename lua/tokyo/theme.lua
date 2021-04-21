@@ -1,10 +1,7 @@
-local M = {}
 local p = require 'tokyo.palette'
-local utils = require 'tokyo.utils'
 local function opt_italic(lhs, rhs) vim.tbl_extend('force', lhs, {italic = rhs}) end
+local cfg = require('tokyo.config')
 local hl = {}
-
-local cfg = {bg_transparent = false, italic_enabled = true}
 
 hl.predef = {
     Fg = {fg = p.fg},
@@ -15,18 +12,15 @@ hl.predef = {
     Green = {fg = p.green},
     Blue = {fg = p.blue},
     Purple = {fg = p.purple},
-    BlueItalic = {fg = p.blue, italic = true},
-    GreenItalic = {fg = p.green, italic = true},
-    RedItalic = {fg = p.red, italic = true}
 }
 
 hl.common = {
-    Normal = {fg = p.fg, bg = not cfg.bg_transparent and p.bg0},
-    Terminal = {fg = p.fg, bg = not cfg.bg_transparent and p.bg0},
-    EndOfBuffer = {fg = p.bg2, bg = not cfg.bg_transparent and p.bg0},
-    FoldColumn = {fg = p.fg, bg = not cfg.bg_transparent and p.bg1},
-    Folded = {fg = p.fg, bg = not cfg.bg_transparent and p.bg1},
-    SignColumn = {fg = p.fg, bg = not cfg.bg_transparent and p.bg0},
+    Normal = {fg = p.fg, bg = cfg.bg_transparent and p.none or p.bg0},
+    Terminal = {fg = p.fg, bg = cfg.bg_transparent and p.none or p.bg0},
+    EndOfBuffer = {fg = p.bg2, bg = cfg.bg_transparent and p.none or p.bg0},
+    FoldColumn = {fg = p.fg, bg = cfg.bg_transparent and p.none or p.bg1},
+    Folded = {fg = p.fg, bg = cfg.bg_transparent and p.none or p.bg1},
+    SignColumn = {fg = p.fg, bg = cfg.bg_transparent and p.none or p.bg0},
     ToolbarLine = {fg = p.fg},
     Cursor = {reverse = true},
     vCursor = {reverse = true},
@@ -297,30 +291,5 @@ hl.cmake = {
     cmakeKWwrite_file = hl.predef.Green
 }
 
-local highlight = vim.api.nvim_set_hl
-local set_hl_ns = vim.api.nvim__set_hl_ns
-local create_namespace = vim.api.nvim_create_namespace
-
-function M.set_hl()
-    vim.cmd("hi clear")
-    if vim.fn.exists("syntax_on") then vim.cmd("syntax reset") end
-    vim.o.background = "dark"
-    vim.o.termguicolors = true
-    vim.g.colors_name = "tokyo"
-    local ns = create_namespace("tokyo")
-    for _, group in pairs(hl) do
-        for group_name, group_settings in pairs(group) do
-            if group_settings.link ~= nil then
-                print(group_settings.link)
-            end
-            highlight(ns, group_name, group_settings)
-            -- print(group_name)
-        end
-    end
-    set_hl_ns(ns)
-
-end
-
-return M
--- utils.tprint(hl)
+return hl
 

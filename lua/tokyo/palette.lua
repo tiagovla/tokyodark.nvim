@@ -1,3 +1,6 @@
+local color_gamma = require('tokyo.utils').color_gamma
+local gamma = require('tokyo.config').gamma
+
 local colors = {
     black = '#06080A',
     bg0 = '#11121D',
@@ -21,5 +24,10 @@ local colors = {
     grey = '#3b4261',
     none = 'NONE'
 }
+local function gamma_correction(colors)
+    local colors_corrected = {}
+    for k, v in pairs(colors) do colors_corrected[k] = color_gamma(v, gamma) end
+    return colors_corrected
+end
 
-return colors
+return gamma_correction(colors)
