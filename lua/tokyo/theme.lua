@@ -1,6 +1,6 @@
 local M = {}
-local p = require 'lua.tokyo.palette'
-local utils = require 'lua.tokyo.utils'
+local p = require 'tokyo.palette'
+local utils = require 'tokyo.utils'
 local hl = {}
 
 local config = {bg_transparent = true}
