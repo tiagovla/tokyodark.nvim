@@ -1,6 +1,6 @@
 local M = {}
-local highlights = require('tokyo.highlights')
-local terminal = require('tokyo.terminal')
+local highlights = require('tokyodark.highlights')
+local terminal = require('tokyodark.terminal')
 
 local function colorscheme()
     vim.cmd("hi clear")

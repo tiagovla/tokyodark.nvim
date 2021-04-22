@@ -1,6 +1,6 @@
-local p = require('tokyo.palette')
-local cfg = require('tokyo.config')
-local u = require('tokyo.utils')
+local p = require('tokyodark.palette')
+local cfg = require('tokyodark.config')
+local u = require('tokyodark.utils')
 
 local M = {}
 local hl = {langs = {}, plugins = {}}
@@ -10,7 +10,9 @@ local set_hl_ns = vim.api.nvim__set_hl_ns or vim.api.nvim_set_hl_ns
 local create_namespace = vim.api.nvim_create_namespace
 
 local function load_highlights(ns, highlights)
-    for group_name, group_settings in pairs(highlights) do highlight(ns, group_name, group_settings) end
+    for group_name, group_settings in pairs(highlights) do
+        highlight(ns, group_name, group_settings)
+    end
 end
 
 hl.predef = {
@@ -174,7 +176,11 @@ hl.langs.json = {
     jsonBraces = hl.predef.Fg
 }
 
-hl.langs.yaml = {yamlKey = hl.predef.Red, yamlConstant = hl.predef.BlueItalic, yamlString = hl.predef.Green}
+hl.langs.yaml = {
+    yamlKey = hl.predef.Red,
+    yamlConstant = hl.predef.BlueItalic,
+    yamlString = hl.predef.Green
+}
 
 hl.langs.latex = {
     texStatement = hl.predef.BlueItalic,
@@ -324,7 +330,7 @@ hl.plugins.git_commit = {
 }
 
 function M.setup()
-    local ns = create_namespace("tokyo")
+    local ns = create_namespace("tokyodark")
     load_highlights(ns, hl.predef)
     load_highlights(ns, hl.common)
     load_highlights(ns, hl.syntax)

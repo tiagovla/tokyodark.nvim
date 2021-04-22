@@ -1,5 +1,5 @@
-local color_gamma = require('tokyo.utils').color_gamma
-local gamma = require('tokyo.config').gamma
+local color_gamma = require('tokyodark.utils').color_gamma
+local gamma = require('tokyodark.config').gamma
 
 local colors = {
     black = '#06080A',

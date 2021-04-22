@@ -1,5 +1,5 @@
 local M = {}
-local p = require 'tokyo.palette'
+local p = require 'tokyodark.palette'
 
 function M.setup()
     vim.g.terminal_color_0 = p.black
