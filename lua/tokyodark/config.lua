@@ -1,8 +1,14 @@
-local cfg = {
-    transparent_background = true,
-    enable_italic = true,
-    enable_italic_comment = true,
-    gamma = 1.0
+local function get(setting, default)
+    local key = "tokyodark_" .. setting
+    if vim.g[key] == nil then return default end
+    return vim.g[key]
+end
+
+local config = {
+    bg = get("transparent_background", false),
+    italic = get("enable_italic", true),
+    italic_comment = get("enable_italic_comment", true),
+    gamma = get("color_gamma", "1.0")
 }
 
-return cfg
+return config

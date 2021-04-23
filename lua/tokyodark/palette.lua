@@ -8,11 +8,12 @@ local colors = {
     bg2 = '#212234',
     bg3 = '#392B41',
     bg4 = '#4A5057',
-    bg_red = '#F6718A',
+    bg5 = '#282c34',
+    bg_red = '#FE6D85',
+    bg_green = '#98C379',
+    bg_blue = '#9FBBF3',
     diff_red = '#773440',
-    bg_green = '#B0E973',
     diff_green = '#587738',
-    bg_blue = '#749DF6',
     diff_blue = '#354A77',
     fg = '#A0A8CD',
     red = '#EE6D85',
@@ -20,8 +21,9 @@ local colors = {
     yellow = '#D7A65F',
     green = '#95C561',
     blue = '#7199EE',
+    cyan = '#38A89D',
     purple = '#A485DD',
-    grey = '#3b4261',
+    grey = '#4A5057',
     none = 'NONE'
 }
 local function gamma_correction(colors)
