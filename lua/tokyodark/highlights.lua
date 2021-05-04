@@ -49,9 +49,9 @@ hl.common = {
     CursorLineNr = {fg = p.fg},
     LineNr = {fg = p.bg4},
     Conceal = {fg = p.grey, bg = p.bg1},
-    DiffAdd = {fg = p.none, bg = p.diff_green},
-    DiffChange = {fg = p.none, bg = p.diff_blue},
-    DiffDelete = {fg = p.none, bg = p.diff_red},
+    DiffAdd = {fg = p.none, bg = p.diff_add},
+    DiffChange = {fg = p.none, bg = p.diff_change},
+    DiffDelete = {fg = p.none, bg = p.diff_delete},
     DiffText = {fg = p.none, reverse = true},
     Directory = {fg = p.green},
     ErrorMsg = {fg = p.red, bold = true, underline = true},
@@ -153,6 +153,33 @@ hl.plugins.gitgutter = {
     GitGutterAdd = {fg = p.diff_green},
     GitGutterChange = {fg = p.diff_blue},
     GitGutterDelete = {fg = p.diff_red}
+}
+
+hl.plugins.diffview = {
+    DiffviewFilePanelTitle = {fg = p.blue, bold = true},
+    DiffviewFilePanelCounter = {fg = p.purple, bold = true},
+    DiffviewFilePanelFileName = hl.predef.Fg,
+    DiffviewNormal = hl.common.Normal,
+    DiffviewCursorLine = hl.common.CursorLine,
+    DiffviewVertSplit = hl.common.VertSplit,
+    DiffviewSignColumn = hl.common.SignColumn,
+    DiffviewStatusLine = hl.common.StatusLine,
+    DiffviewStatusLineNC = hl.common.StatusLineNC,
+    DiffviewEndOfBuffer = hl.common.EndOfBuffer,
+    DiffviewFilePanelRootPath = hl.predef.Grey,
+    DiffviewFilePanelPath = hl.predef.Grey,
+    DiffviewFilePanelInsertions = hl.predef.Green,
+    DiffviewFilePanelDeletions = hl.predef.Red,
+    DiffviewStatusAdded = hl.predef.Green,
+    DiffviewStatusUntracked = hl.predef.Blue,
+    DiffviewStatusModified = hl.predef.Blue,
+    DiffviewStatusRenamed = hl.predef.Blue,
+    DiffviewStatusCopied = hl.predef.Blue,
+    DiffviewStatusTypeChange = hl.predef.Blue,
+    DiffviewStatusUnmerged = hl.predef.Blue,
+    DiffviewStatusUnknown = hl.predef.Red,
+    DiffviewStatusDeleted = hl.predef.Red,
+    DiffviewStatusBroken = hl.predef.Red
 }
 
 hl.plugins.gitsigns = {
