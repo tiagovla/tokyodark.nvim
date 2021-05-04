@@ -1,8 +1,12 @@
 ![tokyodark.nvim](https://svgur.com/i/WVs.svg)
 
+
+![image](https://user-images.githubusercontent.com/30515389/115807570-42385080-a3bf-11eb-8286-c981b5093ffa.png)
+
+
 ### About
 
-A clean dark theme written in lua for neovim.
+A clean dark theme written in lua for neovim 0.5.
 
 ### Features
 - Support for numerous plugins
