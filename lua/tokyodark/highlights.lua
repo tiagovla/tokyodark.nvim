@@ -233,7 +233,7 @@ hl.langs.scala = {
     scalaKeywordModifier = hl.predef.Red
 }
 
-function M.setup()
+local function load_sync()
     local ns = create_namespace("tokyodark")
     load_highlights(ns, hl.predef)
     load_highlights(ns, hl.common)
@@ -241,6 +241,20 @@ function M.setup()
     for _, group in pairs(hl.langs) do load_highlights(ns, group) end
     for _, group in pairs(hl.plugins) do load_highlights(ns, group) end
     set_hl_ns(ns)
+end
+
+local load_async
+load_async = vim.loop.new_async(vim.schedule_wrap(function()
+    local ns = create_namespace("tokyodark")
+    for _, group in pairs(hl.langs) do load_highlights(ns, group) end
+    for _, group in pairs(hl.plugins) do load_highlights(ns, group) end
+    set_hl_ns(ns)
+    load_async:close()
+end))
+
+function M.setup()
+    load_sync()
+    load_async:send()
 end
 
 return M
