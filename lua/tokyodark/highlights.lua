@@ -238,8 +238,8 @@ local function load_sync()
     load_highlights(ns, hl.predef)
     load_highlights(ns, hl.common)
     load_highlights(ns, hl.syntax)
-    for _, group in pairs(hl.langs) do load_highlights(ns, group) end
-    for _, group in pairs(hl.plugins) do load_highlights(ns, group) end
+    -- for _, group in pairs(hl.langs) do load_highlights(ns, group) end
+    -- for _, group in pairs(hl.plugins) do load_highlights(ns, group) end
     set_hl_ns(ns)
 end
 
