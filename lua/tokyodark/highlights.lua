@@ -7,9 +7,9 @@ local hl = {langs = {}, plugins = {}}
 
 local highlight = vim.api.nvim_set_hl
 local set_hl_ns = vim.api.nvim__set_hl_ns or vim.api.nvim_set_hl_ns
-local create_namespace = vim.api.nvim_create_namespace
+local ns = vim.api.nvim_create_namespace("tokyodark")
 
-local function load_highlights(ns, highlights)
+local function load_highlights(highlights)
     for group_name, group_settings in pairs(highlights) do
         highlight(ns, group_name, group_settings)
     end
@@ -233,11 +233,15 @@ hl.langs.scala = {
     scalaKeywordModifier = hl.predef.Red
 }
 
+function M.clear_namespace()
+	vim.api.nvim_buf_clear_namespace(0, ns, 0, -1)
+	vim.api.nvim__set_hl_ns(0)
+end
+
 local function load_sync()
-    local ns = create_namespace("tokyodark")
-    load_highlights(ns, hl.predef)
-    load_highlights(ns, hl.common)
-    load_highlights(ns, hl.syntax)
+    load_highlights(hl.predef)
+    load_highlights(hl.common)
+    load_highlights(hl.syntax)
     -- for _, group in pairs(hl.langs) do load_highlights(ns, group) end
     -- for _, group in pairs(hl.plugins) do load_highlights(ns, group) end
     set_hl_ns(ns)
@@ -245,9 +249,8 @@ end
 
 local load_async
 load_async = vim.loop.new_async(vim.schedule_wrap(function()
-    local ns = create_namespace("tokyodark")
-    for _, group in pairs(hl.langs) do load_highlights(ns, group) end
-    for _, group in pairs(hl.plugins) do load_highlights(ns, group) end
+    for _, group in pairs(hl.langs) do load_highlights(group) end
+    for _, group in pairs(hl.plugins) do load_highlights(group) end
     set_hl_ns(ns)
     load_async:close()
 end))

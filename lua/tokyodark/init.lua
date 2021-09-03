@@ -9,6 +9,8 @@ local function colorscheme()
     vim.g.colors_name = "tokyodark"
     highlights.setup()
     terminal.setup()
+
+	vim.cmd [[au ColorSchemePre * lua require("tokyodark.highlights").clear_namespace()]]
 end
 
 colorscheme()
