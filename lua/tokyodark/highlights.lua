@@ -235,7 +235,7 @@ hl.langs.scala = {
 
 function M.clear_namespace()
 	vim.api.nvim_buf_clear_namespace(0, ns, 0, -1)
-    set_hl_ns(0)
+	set_hl_ns(0)
 end
 
 local function load_sync()
