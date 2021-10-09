@@ -234,16 +234,14 @@ hl.langs.scala = {
 }
 
 function M.clear_namespace()
-	vim.api.nvim_buf_clear_namespace(0, ns, 0, -1)
-	set_hl_ns(0)
+    vim.api.nvim_buf_clear_namespace(0, ns, 0, -1)
+    set_hl_ns(0)
 end
 
 local function load_sync()
     load_highlights(hl.predef)
     load_highlights(hl.common)
     load_highlights(hl.syntax)
-    -- for _, group in pairs(hl.langs) do load_highlights(ns, group) end
-    -- for _, group in pairs(hl.plugins) do load_highlights(ns, group) end
     set_hl_ns(ns)
 end
 

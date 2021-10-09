@@ -1,7 +1,9 @@
 local highlights = require('tokyodark.highlights')
 local terminal = require('tokyodark.terminal')
 
-local function colorscheme()
+local M = {}
+
+function M.colorscheme()
     vim.cmd("hi clear")
     if vim.fn.exists("syntax_on") then vim.cmd("syntax reset") end
     vim.o.background = "dark"
@@ -10,7 +12,7 @@ local function colorscheme()
     highlights.setup()
     terminal.setup()
 
-	vim.cmd [[au ColorSchemePre * lua require("tokyodark.highlights").clear_namespace()]]
+    vim.cmd [[au ColorSchemePre * lua require("tokyodark.highlights").clear_namespace()]]
 end
 
-colorscheme()
+return M
