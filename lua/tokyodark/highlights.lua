@@ -242,6 +242,8 @@ local function load_sync()
     load_highlights(hl.predef)
     load_highlights(hl.common)
     load_highlights(hl.syntax)
+    for _, group in pairs(hl.langs) do load_highlights(group) end
+    for _, group in pairs(hl.plugins) do load_highlights(group) end
     set_hl_ns(ns)
 end
 
@@ -255,7 +257,7 @@ end))
 
 function M.setup()
     load_sync()
-    load_async:send()
+    -- load_async:send() TODO: find why it does not work with v0.5 anymore
 end
 
 return M
