@@ -25,9 +25,10 @@ hl.predef = {
     Blue = {fg = p.blue},
     Purple = {fg = p.purple},
     BlueItalic = {fg = p.blue, italic = cfg.italic},
-    RedItalic = {fg = p.red, italic = cfg.italic},
     GreenItalic = {fg = p.green, italic = cfg.italic},
-    OrangeItalic = {fg = p.orange, italic = cfg.italic}
+    OrangeItalic = {fg = p.orange, italic = cfg.italic},
+    RedItalic = {fg = p.red, italic = cfg.italic},
+    YellowItalic = {fg = p.yellow, italic = cfg.italic}
 }
 
 hl.common = {
@@ -180,6 +181,12 @@ hl.plugins.diffview = {
     DiffviewStatusUnknown = hl.predef.Red,
     DiffviewStatusDeleted = hl.predef.Red,
     DiffviewStatusBroken = hl.predef.Red
+}
+
+hl.plugins.treesitter = {
+    commentTSDanger = hl.predef.RedItalic,
+    commentTSNote = hl.predef.BlueItalic,
+    commentTSWarning = hl.predef.YellowItalic
 }
 
 hl.plugins.gitsigns = {
