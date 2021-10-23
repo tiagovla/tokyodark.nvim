@@ -1,9 +1,9 @@
-local p = require('tokyodark.palette')
-local cfg = require('tokyodark.config')
-local u = require('tokyodark.utils')
+local p = require("tokyodark.palette")
+local cfg = require("tokyodark.config")
+local u = require("tokyodark.utils")
 
 local M = {}
-local hl = {langs = {}, plugins = {}}
+local hl = { langs = {}, plugins = {} }
 
 local highlight = vim.api.nvim_set_hl
 local set_hl_ns = vim.api.nvim__set_hl_ns or vim.api.nvim_set_hl_ns
@@ -16,79 +16,79 @@ local function load_highlights(highlights)
 end
 
 hl.predef = {
-    Fg = {fg = p.fg},
-    Grey = {fg = p.grey},
-    Red = {fg = p.red},
-    Orange = {fg = p.orange},
-    Yellow = {fg = p.yellow},
-    Green = {fg = p.green},
-    Blue = {fg = p.blue},
-    Purple = {fg = p.purple},
-    BlueItalic = {fg = p.blue, italic = cfg.italic},
-    GreenItalic = {fg = p.green, italic = cfg.italic},
-    OrangeItalic = {fg = p.orange, italic = cfg.italic},
-    RedItalic = {fg = p.red, italic = cfg.italic},
-    YellowItalic = {fg = p.yellow, italic = cfg.italic}
+    Fg = { fg = p.fg },
+    Grey = { fg = p.grey },
+    Red = { fg = p.red },
+    Orange = { fg = p.orange },
+    Yellow = { fg = p.yellow },
+    Green = { fg = p.green },
+    Blue = { fg = p.blue },
+    Purple = { fg = p.purple },
+    BlueItalic = { fg = p.blue, italic = cfg.italic },
+    GreenItalic = { fg = p.green, italic = cfg.italic },
+    OrangeItalic = { fg = p.orange, italic = cfg.italic },
+    RedItalic = { fg = p.red, italic = cfg.italic },
+    YellowItalic = { fg = p.yellow, italic = cfg.italic },
 }
 
 hl.common = {
-    Normal = {fg = p.fg, bg = cfg.bg and p.none or p.bg0},
-    Terminal = {fg = p.fg, bg = cfg.bg and p.none or p.bg0},
-    EndOfBuffer = {fg = p.bg2, bg = cfg.bg and p.none or p.bg0},
-    FoldColumn = {fg = p.fg, bg = cfg.bg and p.none or p.bg1},
-    Folded = {fg = p.fg, bg = cfg.bg and p.none or p.bg1},
-    SignColumn = {fg = p.fg, bg = cfg.bg and p.none or p.bg0},
-    ToolbarLine = {fg = p.fg},
-    Cursor = {reverse = true},
-    vCursor = {reverse = true},
-    iCursor = {reverse = true},
-    lCursor = {reverse = true},
-    CursorIM = {reverse = true},
-    CursorColumn = {bg = p.bg1},
-    CursorLine = {bg = p.bg1},
-    ColorColumn = {bg = p.bg1},
-    CursorLineNr = {fg = p.fg},
-    LineNr = {fg = p.bg4},
-    Conceal = {fg = p.grey, bg = p.bg1},
-    DiffAdd = {fg = p.none, bg = p.diff_add},
-    DiffChange = {fg = p.none, bg = p.diff_change},
-    DiffDelete = {fg = p.none, bg = p.diff_delete},
-    DiffText = {fg = p.none, reverse = true},
-    Directory = {fg = p.green},
-    ErrorMsg = {fg = p.red, bold = true, underline = true},
-    WarningMsg = {fg = p.yellow, bold = true},
-    MoreMsg = {fg = p.blue, bold = true},
-    IncSearch = {fg = p.bg0, bg = p.bg_red},
-    Search = {fg = p.bg0, bg = p.bg_green},
-    MatchParen = {fg = p.none, bg = p.bg4},
-    NonText = {fg = p.bg4},
-    Whitespace = {fg = p.bg4},
-    SpecialKey = {fg = p.bg4},
-    Pmenu = {fg = p.fg, bg = p.bg2},
-    PmenuSbar = {fg = p.none, bg = p.bg2},
-    PmenuSel = {fg = p.bg0, bg = p.bg_green},
-    WildMenu = {fg = p.bg0, bg = p.blue},
-    PmenuThumb = {fg = p.none, bg = p.grey},
-    Question = {fg = p.yellow},
-    SpellBad = {fg = p.red, underline = true, sp = p.red},
-    SpellCap = {fg = p.yellow, underline = true, sp = p.yellow},
-    SpellLocal = {fg = p.blue, underline = true, sp = p.blue},
-    SpellRare = {fg = p.purple, underline = true, sp = p.purple},
-    StatusLine = {fg = p.fg, bg = p.bg2},
-    StatusLineTerm = {fg = p.fg, bg = p.bg2},
-    StatusLineNC = {fg = p.grey, bg = p.bg1},
-    StatusLineTermNC = {fg = p.grey, bg = p.bg1},
-    TabLine = {fg = p.fg, bg = p.bg4},
-    TabLineFill = {fg = p.grey, bg = p.bg1},
-    TabLineSel = {fg = p.bg0, bg = p.bg_red},
-    VertSplit = {fg = p.bg5},
-    Visual = {bg = p.bg1},
-    VisualNOS = {fg = p.none, bg = p.bg2, underline = true},
-    QuickFixLine = {fg = p.blue, underline = true},
-    Debug = {fg = p.yellow},
-    debugPC = {fg = p.bg0, bg = p.green},
-    debugBreakpoint = {fg = p.bg0, bg = p.red},
-    ToolbarButton = {fg = p.bg0, bg = p.bg_blue}
+    Normal = { fg = p.fg, bg = cfg.bg and p.none or p.bg0 },
+    Terminal = { fg = p.fg, bg = cfg.bg and p.none or p.bg0 },
+    EndOfBuffer = { fg = p.bg2, bg = cfg.bg and p.none or p.bg0 },
+    FoldColumn = { fg = p.fg, bg = cfg.bg and p.none or p.bg1 },
+    Folded = { fg = p.fg, bg = cfg.bg and p.none or p.bg1 },
+    SignColumn = { fg = p.fg, bg = cfg.bg and p.none or p.bg0 },
+    ToolbarLine = { fg = p.fg },
+    Cursor = { reverse = true },
+    vCursor = { reverse = true },
+    iCursor = { reverse = true },
+    lCursor = { reverse = true },
+    CursorIM = { reverse = true },
+    CursorColumn = { bg = p.bg1 },
+    CursorLine = { bg = p.bg1 },
+    ColorColumn = { bg = p.bg1 },
+    CursorLineNr = { fg = p.fg },
+    LineNr = { fg = p.bg4 },
+    Conceal = { fg = p.grey, bg = p.bg1 },
+    DiffAdd = { fg = p.none, bg = p.diff_add },
+    DiffChange = { fg = p.none, bg = p.diff_change },
+    DiffDelete = { fg = p.none, bg = p.diff_delete },
+    DiffText = { fg = p.none, reverse = true },
+    Directory = { fg = p.green },
+    ErrorMsg = { fg = p.red, bold = true, underline = true },
+    WarningMsg = { fg = p.yellow, bold = true },
+    MoreMsg = { fg = p.blue, bold = true },
+    IncSearch = { fg = p.bg0, bg = p.bg_red },
+    Search = { fg = p.bg0, bg = p.bg_green },
+    MatchParen = { fg = p.none, bg = p.bg4 },
+    NonText = { fg = p.bg4 },
+    Whitespace = { fg = p.bg4 },
+    SpecialKey = { fg = p.bg4 },
+    Pmenu = { fg = p.fg, bg = p.bg2 },
+    PmenuSbar = { fg = p.none, bg = p.bg2 },
+    PmenuSel = { fg = p.bg0, bg = p.bg_green },
+    WildMenu = { fg = p.bg0, bg = p.blue },
+    PmenuThumb = { fg = p.none, bg = p.grey },
+    Question = { fg = p.yellow },
+    SpellBad = { fg = p.red, underline = true, sp = p.red },
+    SpellCap = { fg = p.yellow, underline = true, sp = p.yellow },
+    SpellLocal = { fg = p.blue, underline = true, sp = p.blue },
+    SpellRare = { fg = p.purple, underline = true, sp = p.purple },
+    StatusLine = { fg = p.fg, bg = p.bg2 },
+    StatusLineTerm = { fg = p.fg, bg = p.bg2 },
+    StatusLineNC = { fg = p.grey, bg = p.bg1 },
+    StatusLineTermNC = { fg = p.grey, bg = p.bg1 },
+    TabLine = { fg = p.fg, bg = p.bg4 },
+    TabLineFill = { fg = p.grey, bg = p.bg1 },
+    TabLineSel = { fg = p.bg0, bg = p.bg_red },
+    VertSplit = { fg = p.bg5 },
+    Visual = { bg = p.bg1 },
+    VisualNOS = { fg = p.none, bg = p.bg2, underline = true },
+    QuickFixLine = { fg = p.blue, underline = true },
+    Debug = { fg = p.yellow },
+    debugPC = { fg = p.bg0, bg = p.green },
+    debugBreakpoint = { fg = p.bg0, bg = p.red },
+    ToolbarButton = { fg = p.bg0, bg = p.bg_blue },
 }
 
 hl.syntax = {
@@ -122,9 +122,9 @@ hl.syntax = {
     Title = hl.predef.Yellow,
     Tag = hl.predef.Orange,
     Delimiter = hl.predef.Fg,
-    Comment = {fg = p.bg4, italic = cfg.italic_comment},
-    SpecialComment = {fg = p.bg4, italic = cfg.italic_comment},
-    Todo = {fg = p.blue, italic = cfg.italic_comment}
+    Comment = { fg = p.bg4, italic = cfg.italic_comment },
+    SpecialComment = { fg = p.bg4, italic = cfg.italic_comment },
+    Todo = { fg = p.blue, italic = cfg.italic_comment },
 }
 
 hl.plugins.lsp = {
@@ -133,32 +133,32 @@ hl.plugins.lsp = {
     LspCxxHlGroupNamespace = hl.predef.Blue,
     LspCxxHlSkippedRegion = hl.predef.Grey,
     LspCxxHlSkippedRegionBeginEnd = hl.predef.Red,
-    LspDiagnosticsDefaultError = {fg = u.color_gamma(p.red, 0.5)},
-    LspDiagnosticsDefaultHint = {fg = u.color_gamma(p.purple, 0.5)},
-    LspDiagnosticsDefaultInformation = {fg = u.color_gamma(p.blue, 0.5)},
-    LspDiagnosticsDefaultWarning = {fg = u.color_gamma(p.yellow, 0.5)},
-    LspDiagnosticsUnderlineError = {underline = true, sp = u.color_gamma(p.red, 0.5)},
-    LspDiagnosticsUnderlineHint = {underline = true, sp = u.color_gamma(p.purple, 0.5)},
-    LspDiagnosticsUnderlineInformation = {underline = true, sp = u.color_gamma(p.blue, 0.5)},
-    LspDiagnosticsUnderlineWarning = {underline = true, sp = u.color_gamma(p.yellow, 0.5)}
+    LspDiagnosticsDefaultError = { fg = u.color_gamma(p.red, 0.5) },
+    LspDiagnosticsDefaultHint = { fg = u.color_gamma(p.purple, 0.5) },
+    LspDiagnosticsDefaultInformation = { fg = u.color_gamma(p.blue, 0.5) },
+    LspDiagnosticsDefaultWarning = { fg = u.color_gamma(p.yellow, 0.5) },
+    LspDiagnosticsUnderlineError = { underline = true, sp = u.color_gamma(p.red, 0.5) },
+    LspDiagnosticsUnderlineHint = { underline = true, sp = u.color_gamma(p.purple, 0.5) },
+    LspDiagnosticsUnderlineInformation = { underline = true, sp = u.color_gamma(p.blue, 0.5) },
+    LspDiagnosticsUnderlineWarning = { underline = true, sp = u.color_gamma(p.yellow, 0.5) },
 }
 
 hl.plugins.whichkey = {
     WhichKey = hl.predef.Red,
     WhichKeyDesc = hl.predef.Blue,
     WhichKeyGroup = hl.predef.Orange,
-    WhichKeySeperator = hl.predef.Green
+    WhichKeySeperator = hl.predef.Green,
 }
 
 hl.plugins.gitgutter = {
-    GitGutterAdd = {fg = p.diff_green},
-    GitGutterChange = {fg = p.diff_blue},
-    GitGutterDelete = {fg = p.diff_red}
+    GitGutterAdd = { fg = p.diff_green },
+    GitGutterChange = { fg = p.diff_blue },
+    GitGutterDelete = { fg = p.diff_red },
 }
 
 hl.plugins.diffview = {
-    DiffviewFilePanelTitle = {fg = p.blue, bold = true},
-    DiffviewFilePanelCounter = {fg = p.purple, bold = true},
+    DiffviewFilePanelTitle = { fg = p.blue, bold = true },
+    DiffviewFilePanelCounter = { fg = p.purple, bold = true },
     DiffviewFilePanelFileName = hl.predef.Fg,
     DiffviewNormal = hl.common.Normal,
     DiffviewCursorLine = hl.common.CursorLine,
@@ -180,13 +180,13 @@ hl.plugins.diffview = {
     DiffviewStatusUnmerged = hl.predef.Blue,
     DiffviewStatusUnknown = hl.predef.Red,
     DiffviewStatusDeleted = hl.predef.Red,
-    DiffviewStatusBroken = hl.predef.Red
+    DiffviewStatusBroken = hl.predef.Red,
 }
 
 hl.plugins.treesitter = {
     commentTSDanger = hl.predef.RedItalic,
     commentTSNote = hl.predef.BlueItalic,
-    commentTSWarning = hl.predef.YellowItalic
+    commentTSWarning = hl.predef.YellowItalic,
 }
 
 hl.plugins.gitsigns = {
@@ -198,37 +198,37 @@ hl.plugins.gitsigns = {
     GitSignsChangeNr = hl.predef.Blue,
     GitSignsDelete = hl.predef.Red,
     GitSignsDeleteLn = hl.predef.Red,
-    GitSignsDeleteNr = hl.predef.Red
+    GitSignsDeleteNr = hl.predef.Red,
 }
 
 hl.langs.markdown = {
     markdownBlockquote = hl.predef.Grey,
-    markdownBold = {fg = p.none, bold = true},
+    markdownBold = { fg = p.none, bold = true },
     markdownBoldDelimiter = hl.predef.Grey,
     markdownCode = hl.predef.Yellow,
     markdownCodeBlock = hl.predef.Yellow,
     markdownCodeDelimiter = hl.predef.Green,
-    markdownH1 = {fg = p.red, bold = true},
-    markdownH2 = {fg = p.red, bold = true},
-    markdownH3 = {fg = p.red, bold = true},
-    markdownH4 = {fg = p.red, bold = true},
-    markdownH5 = {fg = p.red, bold = true},
-    markdownH6 = {fg = p.red, bold = true},
+    markdownH1 = { fg = p.red, bold = true },
+    markdownH2 = { fg = p.red, bold = true },
+    markdownH3 = { fg = p.red, bold = true },
+    markdownH4 = { fg = p.red, bold = true },
+    markdownH5 = { fg = p.red, bold = true },
+    markdownH6 = { fg = p.red, bold = true },
     markdownHeadingDelimiter = hl.predef.Grey,
     markdownHeadingRule = hl.predef.Grey,
     markdownId = hl.predef.Yellow,
     markdownIdDeclaration = hl.predef.Red,
-    markdownItalic = {fg = p.none, italic = true},
-    markdownItalicDelimiter = {fg = p.grey, italic = true},
+    markdownItalic = { fg = p.none, italic = true },
+    markdownItalicDelimiter = { fg = p.grey, italic = true },
     markdownLinkDelimiter = hl.predef.Grey,
     markdownLinkText = hl.predef.Red,
     markdownLinkTextDelimiter = hl.predef.Grey,
     markdownListMarker = hl.predef.Red,
     markdownOrderedListMarker = hl.predef.Red,
     markdownRule = hl.predef.Purple,
-    markdownUrl = {fg = p.blue, underline = true},
+    markdownUrl = { fg = p.blue, underline = true },
     markdownUrlDelimiter = hl.predef.Grey,
-    markdownUrlTitleDelimiter = hl.predef.Green
+    markdownUrlTitleDelimiter = hl.predef.Green,
 }
 
 hl.langs.scala = {
@@ -237,7 +237,7 @@ hl.langs.scala = {
     scalaInterpolation = hl.predef.Purple,
     scalaTypeOperator = hl.predef.Red,
     scalaOperator = hl.predef.Red,
-    scalaKeywordModifier = hl.predef.Red
+    scalaKeywordModifier = hl.predef.Red,
 }
 
 function M.clear_namespace()
@@ -249,15 +249,23 @@ local function load_sync()
     load_highlights(hl.predef)
     load_highlights(hl.common)
     load_highlights(hl.syntax)
-    for _, group in pairs(hl.langs) do load_highlights(group) end
-    for _, group in pairs(hl.plugins) do load_highlights(group) end
+    for _, group in pairs(hl.langs) do
+        load_highlights(group)
+    end
+    for _, group in pairs(hl.plugins) do
+        load_highlights(group)
+    end
     set_hl_ns(ns)
 end
 
 local load_async
 load_async = vim.loop.new_async(vim.schedule_wrap(function()
-    for _, group in pairs(hl.langs) do load_highlights(group) end
-    for _, group in pairs(hl.plugins) do load_highlights(group) end
+    for _, group in pairs(hl.langs) do
+        load_highlights(group)
+    end
+    for _, group in pairs(hl.plugins) do
+        load_highlights(group)
+    end
     set_hl_ns(ns)
     load_async:close()
 end))
@@ -268,4 +276,3 @@ function M.setup()
 end
 
 return M
-
