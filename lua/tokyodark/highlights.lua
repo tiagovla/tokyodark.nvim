@@ -193,6 +193,10 @@ hl.plugins.treesitter = {
     commentTSWarning = hl.predef.YellowItalic,
 }
 
+hl.plugins.cmp = {
+    CmpItemKind = hl.predef.Blue,
+}
+
 hl.plugins.gitsigns = {
     GitSignsAdd = hl.predef.Green,
     GitSignsAddLn = hl.predef.Green,
