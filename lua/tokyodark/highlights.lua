@@ -197,6 +197,17 @@ hl.plugins.cmp = {
     CmpItemKind = hl.predef.Blue,
 }
 
+hl.plugins.coc = {
+    CocErrorSign = { fg = u.color_gamma(p.red, 0.5) },
+    CocHintSign = { fg = u.color_gamma(p.red, 0.5) },
+    CocInfoSign = { fg = u.color_gamma(p.red, 0.5) },
+    CocWarningSign = { fg = u.color_gamma(p.red, 0.5) },
+    FgCocErrorFloatBgCocFloating = { fg = u.color_gamma(p.red, 0.5), bg = p.bg2 },
+    FgCocHintFloatBgCocFloating = { fg = u.color_gamma(p.purple, 0.5), bg = p.bg2 },
+    FgCocInfoFloatBgCocFloating = { fg = u.color_gamma(p.blue, 0.5), bg = p.bg2 },
+    FgCocWarningFloatBgCocFloating = { fg = u.color_gamma(p.yellow, 0.5), bg = p.bg2 },
+}
+
 hl.plugins.gitsigns = {
     GitSignsAdd = hl.predef.Green,
     GitSignsAddLn = hl.predef.Green,
