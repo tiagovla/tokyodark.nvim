@@ -15,6 +15,16 @@ local function load_highlights(highlights)
     end
 end
 
+local function load_highlights_legacy(highlights)
+    local bg, fg, hl_cmd
+    for group_name, group_settings in pairs(highlights) do
+        bg = group_settings.bg and "guibg=" .. group_settings.bg or "guibg=NONE"
+        fg = group_settings.fg and "guifg=" .. group_settings.fg or "guifg=NONE"
+        hl_cmd = "highlight " .. group_name .. " " .. bg .. " " .. fg
+        vim.cmd(hl_cmd)
+    end
+end
+
 hl.predef = {
     Fg = { fg = p.fg },
     Grey = { fg = p.grey },
@@ -31,8 +41,11 @@ hl.predef = {
     YellowItalic = { fg = p.yellow, italic = cfg.italic },
 }
 
-hl.common = {
+hl.legacy = {
     Normal = { fg = p.fg, bg = cfg.bg and p.none or p.bg0 },
+}
+
+hl.common = {
     Terminal = { fg = p.fg, bg = cfg.bg and p.none or p.bg0 },
     EndOfBuffer = { fg = p.bg2, bg = cfg.bg and p.none or p.bg0 },
     FoldColumn = { fg = p.fg, bg = cfg.bg and p.none or p.bg1 },
@@ -64,11 +77,11 @@ hl.common = {
     NonText = { fg = p.bg4 },
     Whitespace = { fg = p.bg4 },
     SpecialKey = { fg = p.bg4 },
-    Pmenu = { fg = p.fg, bg = p.bg2 },
-    PmenuSbar = { fg = p.none, bg = p.bg2 },
+    Pmenu = { fg = p.fg, bg = p.bg0 },
+    PmenuSbar = { fg = p.none, bg = p.bg0 },
     PmenuSel = { fg = p.bg0, bg = p.bg_green },
+    PmenuThumb = { fg = p.none, bg = p.bg2 },
     WildMenu = { fg = p.bg0, bg = p.blue },
-    PmenuThumb = { fg = p.none, bg = p.grey },
     Question = { fg = p.yellow },
     SpellBad = { fg = p.red, underline = true, sp = p.red },
     SpellCap = { fg = p.yellow, underline = true, sp = p.yellow },
@@ -294,6 +307,7 @@ function M.clear_namespace()
 end
 
 local function load_sync()
+    load_highlights_legacy(hl.legacy)
     load_highlights(hl.predef)
     load_highlights(hl.common)
     load_highlights(hl.syntax)
