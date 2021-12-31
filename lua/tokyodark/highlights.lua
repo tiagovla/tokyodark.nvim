@@ -194,7 +194,36 @@ hl.plugins.treesitter = {
 }
 
 hl.plugins.cmp = {
-    CmpItemKind = hl.predef.Blue,
+    CmpItemKindDefault = { fg = p.blue, bg = p.none },
+    CmpItemAbbrMatch = { fg = p.blue, bg = p.none },
+    CmpItemAbbrMatchFuzzy = { fg = p.blue, bg = p.none },
+
+    CmpItemKindKeyword = { fg = p.fg, bg = p.none },
+
+    CmpItemKindVariable = { fg = p.cyan, bg = p.none },
+    CmpItemKindConstant = { fg = p.cyan, bg = p.none },
+    CmpItemKindReference = { fg = p.cyan, bg = p.none },
+    CmpItemKindValue = { fg = p.cyan, bg = p.none },
+
+    CmpItemKindFunction = { fg = p.purple, bg = p.none },
+    CmpItemKindMethod = { fg = p.purple, bg = p.none },
+    CmpItemKindConstructor = { fg = p.purple, bg = p.none },
+
+    CmpItemKindClass = { fg = p.yellow, bg = p.none },
+    CmpItemKindInterface = { fg = p.yellow, bg = p.none },
+    CmpItemKindStruct = { fg = p.yellow, bg = p.none },
+    CmpItemKindEvent = { fg = p.yellow, bg = p.none },
+    CmpItemKindEnum = { fg = p.yellow, bg = p.none },
+    CmpItemKindUnit = { fg = p.yellow, bg = p.none },
+    CmpItemKindModule = { fg = p.yellow, bg = p.none },
+
+    CmpItemKindProperty = { fg = p.green, bg = p.none },
+    CmpItemKindField = { fg = p.green, bg = p.none },
+    CmpItemKindTypeParameter = { fg = p.green, bg = p.none },
+    CmpItemKindEnumMember = { fg = p.green, bg = p.none },
+    CmpItemKindOperator = { fg = p.green, bg = p.none },
+
+    CmpItemKindSnippet = { fg = p.red, bg = p.none },
 }
 
 hl.plugins.coc = {
