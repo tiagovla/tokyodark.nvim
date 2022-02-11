@@ -43,6 +43,9 @@ hl.predef = {
 
 hl.legacy = {
     Normal = { fg = p.fg, bg = cfg.bg and p.none or p.bg0 },
+    LspReferenceRead = { bg = p.bg3 },
+    LspReferenceWrite = { bg = p.bg3 },
+    LspReferenceText = { bg = p.bg3 },
 }
 
 hl.common = {
