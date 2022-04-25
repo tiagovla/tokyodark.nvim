@@ -106,6 +106,7 @@ hl.common = {
     debugPC = { fg = p.bg0, bg = p.green },
     debugBreakpoint = { fg = p.bg0, bg = p.red },
     ToolbarButton = { fg = p.bg0, bg = p.bg_blue },
+    FocusedSymbol = { bg = p.bg3 },
 }
 
 hl.syntax = {
