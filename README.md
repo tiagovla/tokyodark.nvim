@@ -4,7 +4,7 @@
 
 ### About
 
-A clean dark theme written in lua for neovim 0.5.
+A clean dark theme written in lua for neovim 0.7.
 
 ### Features
 
