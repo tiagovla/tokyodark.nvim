@@ -1,9 +1,9 @@
--- Copyright (c) 2021-2021 tiagovla
+-- Copyright (c) 2021-2022 tiagovla
 -- License: MIT
 --
 local p = require("tokyodark.palette")
 local colors = {
-    bg = p.bg0,
+    bg = p.bg1,
     fg = p.fg,
     red = p.red,
     green = p.green,
