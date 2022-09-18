@@ -151,7 +151,7 @@ hl.plugins.lsp = {
     LspReferenceRead = { bg = p.bg3 },
     LspReferenceWrite = { bg = p.bg3 },
     LspReferenceText = { bg = p.bg3 },
-    LspInfoBorder = { bg = p.bg4 },
+    LspInfoBorder = { fg = p.bg4 },
 }
 
 hl.plugins.whichkey = {
