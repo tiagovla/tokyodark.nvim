@@ -38,4 +38,19 @@ function U.color_gamma(hex, gamma)
     return string.format("#%02x%02x%02x", r, g, b)
 end
 
+function U.check_min_version(major, minor, patch)
+    local version = vim.version()
+    local current_major = version.major
+    local current_minor = version.minor
+    local current_patch = version.patch
+    if current_major > major then
+        return true
+    elseif current_major == major and current_minor > minor then
+        return true
+    elseif current_major == major and current_minor == minor and current_patch >= patch then
+        return true
+    end
+    return false
+end
+
 return U
