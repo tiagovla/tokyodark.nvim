@@ -167,6 +167,11 @@ hl.plugins.whichkey = {
     WhichKeySeperator = hl.predef.Green,
 }
 
+hl.plugins.flash = {
+    FlashBackdrop = { fg = p.bg4 },
+    FlashLabel = { fg = p.bg0, bg = p.blue, bold=true },
+}
+
 hl.plugins.gitgutter = {
     GitGutterAdd = { fg = p.diff_green },
     GitGutterChange = { fg = p.diff_blue },
