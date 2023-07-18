@@ -19,7 +19,7 @@ local styles = vim.tbl_map(function(value)
     })
 end, config.styles)
 
-local transparent = setmetatable({}, {
+local transparent_bg = setmetatable({}, {
     __add = function(a)
         a.bg = config.transparent_background and p.none or a.bg
         return a
@@ -43,15 +43,15 @@ M.highlights = {
     Green = { fg = p.green },
     Blue = { fg = p.blue },
     Purple = { fg = p.purple },
-    Normal = { fg = p.fg, bg = p.bg0 } + transparent,
-    NormalNC = { fg = p.fg, bg = p.bg0 } + transparent,
-    NormalSB = { fg = p.fg, bg = p.bg0 } + transparent,
-    NormalFloat = { fg = p.fg, bg = p.bg0 } + transparent,
-    Terminal = { fg = p.fg, bg = p.bg0 } + transparent,
-    EndOfBuffer = { fg = p.bg2, bg = p.bg0 } + transparent,
-    FoldColumn = { fg = p.fg, bg = p.bg1 } + transparent,
-    Folded = { fg = p.fg, bg = p.bg1 } + transparent,
-    SignColumn = { fg = p.fg, bg = p.bg0 } + transparent,
+    Normal = { fg = p.fg, bg = p.bg0 } + transparent_bg,
+    NormalNC = { fg = p.fg, bg = p.bg0 } + transparent_bg,
+    NormalSB = { fg = p.fg, bg = p.bg0 } + transparent_bg,
+    NormalFloat = { fg = p.fg, bg = p.bg0 } + transparent_bg,
+    Terminal = { fg = p.fg, bg = p.bg0 } + transparent_bg,
+    EndOfBuffer = { fg = p.bg2, bg = p.bg0 } + transparent_bg,
+    FoldColumn = { fg = p.fg, bg = p.bg1 } + transparent_bg,
+    Folded = { fg = p.fg, bg = p.bg1 } + transparent_bg,
+    SignColumn = { fg = p.fg, bg = p.bg0 } + transparent_bg,
     ToolbarLine = { fg = p.fg },
     Cursor = { reverse = true },
     vCursor = { reverse = true },
@@ -109,12 +109,12 @@ M.highlights = {
     Type = { fg = p.blue } + styles.keywords,
     Structure = { fg = p.blue } + styles.keywords,
     StorageClass = { fg = p.blue } + styles.keywords,
-    Identifier = { fg = p.orange } + styles.keywords,
-    Constant = { fg = p.orange } + styles.keywords,
+    Identifier = { fg = p.orange } + styles.identifiers,
+    Constant = { fg = p.orange } + styles.variables,
     PreProc = { fg = p.red },
     PreCondit = { fg = p.red },
     Include = { fg = p.red },
-    Keyword = { fg = p.red },
+    Keyword = { fg = p.red } + styles.keywords,
     Define = { fg = p.red },
     Typedef = { fg = p.red },
     Exception = { fg = p.red },
@@ -131,7 +131,7 @@ M.highlights = {
     Character = { fg = p.yellow },
     Number = { fg = p.purple },
     Float = { fg = p.purple },
-    Function = { fg = p.green },
+    Function = { fg = p.green } + styles.functions,
     Operator = { fg = p.red },
     Title = { fg = p.yellow },
     Tag = { fg = p.orange },
@@ -259,8 +259,8 @@ M.highlights = {
     ["@type.builtin"] = { link = "Type", default = true },
     ["@type.definition"] = { link = "Typedef", default = true },
     ["@type.qualifier"] = { link = "Type", default = true },
-    ["@variable"] = { link = "Normal", default = true },
-    ["@variable.builtin"] = { link = "Special", default = true },
+    ["@variable"] = { fg = p.fg, default = true } + styles.variables,
+    ["@variable.builtin"] = { fg = p.purple, default = true },
 
     -- lsp
     LspCxxHlGroupEnumConstant = { fg = p.orange },

@@ -6,6 +6,7 @@ local default_config = {
     styles = {
         comments = { italic = true },
         keywords = { italic = true },
+        identifiers = { italic = true },
         functions = {},
         variables = {},
     },
