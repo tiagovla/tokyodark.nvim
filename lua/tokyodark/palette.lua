@@ -1,7 +1,7 @@
-local color_gamma = require("tokyodark.utils").color_gamma
-local gamma = require("tokyodark.config").gamma
+local config = require("tokyodark.config")
+local utils = require("tokyodark.utils")
 
-local colors = {
+local palette = {
     black = "#06080A",
     bg0 = "#11121D",
     bg1 = "#1A1B2A",
@@ -30,12 +30,17 @@ local colors = {
     grey = "#4A5057",
     none = "NONE",
 }
+
 local function gamma_correction(colors)
     local colors_corrected = {}
     for k, v in pairs(colors) do
-        colors_corrected[k] = color_gamma(v, gamma)
+        colors_corrected[k] = utils.color_gamma(v, config.gamma)
     end
     return colors_corrected
 end
 
-return gamma_correction(colors)
+local custom_palette = type(config.custom_palette) == "function"
+        and config.custom_palette(palette)
+    or config.custom_palette
+
+return gamma_correction(vim.tbl_extend("force", palette, custom_palette))

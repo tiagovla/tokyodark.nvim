@@ -1,16 +1,30 @@
-local function get(setting, default)
-    local key = "tokyodark_" .. setting
-    if vim.g[key] == nil then
-        return default
-    end
-    return vim.g[key]
-end
+local config = {}
 
-local config = {
-    bg = get("transparent_background", false),
-    italic = get("enable_italic", true),
-    italic_comment = get("enable_italic_comment", true),
-    gamma = get("color_gamma", "1.0"),
+local default_config = {
+    transparent_background = false,
+    gamma = 1.00,
+    styles = {
+        comments = { italic = true },
+        keywords = { italic = true },
+        functions = {},
+        variables = {},
+    },
+    custom_highlights = {} or function(highlights, palette) end,
+    custom_palette = {} or function(palette) end,
+    terminal_colors = true,
 }
 
-return config
+function config.setup(opts)
+    for k, v in pairs(opts or {}) do
+        if type(v) == "table" then
+            config[k] = {}
+            for kk, vv in pairs(v) do
+                config[k][kk] = vv
+            end
+        else
+            config[k] = v
+        end
+    end
+end
+
+return setmetatable(config, { __index = default_config })

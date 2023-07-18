@@ -19,7 +19,9 @@ end
 
 function U.hex2rgb(hex)
     hex = hex:gsub("#", "")
-    return tonumber("0x" .. hex:sub(1, 2)), tonumber("0x" .. hex:sub(3, 4)), tonumber("0x" .. hex:sub(5, 6))
+    return tonumber("0x" .. hex:sub(1, 2)),
+        tonumber("0x" .. hex:sub(3, 4)),
+        tonumber("0x" .. hex:sub(5, 6))
 end
 
 function U.gamma_corrector(value, gamma)
@@ -47,7 +49,11 @@ function U.check_min_version(major, minor, patch)
         return true
     elseif current_major == major and current_minor > minor then
         return true
-    elseif current_major == major and current_minor == minor and current_patch >= patch then
+    elseif
+        current_major == major
+        and current_minor == minor
+        and current_patch >= patch
+    then
         return true
     end
     return false
