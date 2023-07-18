@@ -41,22 +41,7 @@ function U.color_gamma(hex, gamma)
 end
 
 function U.check_min_version(major, minor, patch)
-    local version = vim.version()
-    local current_major = version.major
-    local current_minor = version.minor
-    local current_patch = version.patch
-    if current_major > major then
-        return true
-    elseif current_major == major and current_minor > minor then
-        return true
-    elseif
-        current_major == major
-        and current_minor == minor
-        and current_patch >= patch
-    then
-        return true
-    end
-    return false
+    return vim.version.gt({ major, minor, patch }, vim.version())
 end
 
 return U
