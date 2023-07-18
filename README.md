@@ -39,6 +39,7 @@ local default_config = {
     styles = {
         comments = { italic = true }, -- style for comments
         keywords = { italic = true }, -- style for keywords
+        identifiers = { italic = true }, -- style for identifiers
         functions = {}, -- style for functions
         variables = {}, -- style for variables
     },
