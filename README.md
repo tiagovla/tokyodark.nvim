@@ -4,62 +4,49 @@
 
 ### About
 
-A clean dark theme written in lua for neovim 0.7.
+A clean dark theme written in lua for neovim (0.7.2 or older).
 
 ### Features
 
 - Support for numerous plugins
 - Customizable
-- Italic Support
 
 ### Installation
 
 Install with your favorite package manager:
 
-[packer](https://github.com/wbthomason/packer.nvim)
+[lazy](https://github.com/wbthomason/lazy.nvim)
 
 ``` lua
-use 'tiagovla/tokyodark.nvim'
+{
+    "tiagovla/tokyodark.nvim",
+    opts = {
+        -- custom options here
+    },
+    config = function(_, opts)
+        require("tokyodark").setup(opts) -- calling setup is optional
+        vim.cmd [[colorscheme tokyodark]]
+    end,
+}
 ```
 
-[vim-plug](https://github.com/junegunn/vim-plug)
+### Default configuration
 
-``` vim
-Plug 'tiagovla/tokyodark.nvim'
-```
-
-### Available configuration
-
-**Note:** The configuration options should be placed before
-`colorscheme tokyodark` .
-
-- `tokyodark_transparent_background`: Set to enable transparent
-  background.
-- `tokyodark_enable_italic_comment`: Set to enable italic in `Comment` .
-- `tokyodark_enable_italic`: Set to italicize keywords. This option is
-  designed to use with fonts that support italic styles, for example
-  [Fira Code, MonoLisa, Dank Mono](https://www.nerdfonts.com/).
-- `tokyodark_color_gamma`: Change to adjust the brightness of the theme.
-  (Darker \< 1.0 \< Lighter).
-
-#### Default configuration
-
-``` lua
--- init.lua
-vim.g.tokyodark_transparent_background = false
-vim.g.tokyodark_enable_italic_comment = true
-vim.g.tokyodark_enable_italic = true
-vim.g.tokyodark_color_gamma = "1.0"
-vim.cmd("colorscheme tokyodark")
-```
-
-``` vim
-" .vimrc
-let g:tokyodark_transparent_background = 0
-let g:tokyodark_enable_italic_comment = 1
-let g:tokyodark_enable_italic = 1
-let g:tokyodark_color_gamma = "1.0"
-colorscheme tokyodark
+```lua
+local default_config = {
+    transparent_background = false, -- set background to transparent
+    gamma = 1.00, -- adjust the brightness of the theme
+    styles = {
+        comments = { italic = true }, -- style for comments
+        keywords = { italic = true }, -- style for keywords
+        identifiers = { italic = true }, -- style for identifiers
+        functions = {}, -- style for functions
+        variables = {}, -- style for variables
+    },
+    custom_highlights = {} or function(highlights, palette) return {} end, -- extend highlights
+    custom_palette = {} or function(palette) return {} end, -- extend palette
+    terminal_colors = true, -- enable terminal colors
+}
 ```
 
 ### Inspiration

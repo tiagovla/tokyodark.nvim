@@ -1,25 +1,40 @@
 local p = require("tokyodark.palette")
-local cfg = require("tokyodark.config")
-local u = require("tokyodark.utils")
+local utils = require("tokyodark.utils")
+local config = require("tokyodark.config")
+local terminal = require("tokyodark.terminal")
 
 local M = {}
-local hl = { langs = {}, plugins = {} }
-
-local highlight = vim.api.nvim_set_hl
 
 local function load_highlights(highlights)
     for group_name, group_settings in pairs(highlights) do
-        highlight(0, group_name, group_settings)
+        vim.api.nvim_set_hl(0, group_name, group_settings)
     end
 end
 
-local function make_default(table)
-    for _, v in pairs(table) do
-        v.default = true
-    end
+local styles = vim.tbl_map(function(value)
+    return setmetatable(value, {
+        __add = function(a, b)
+            return vim.tbl_extend("force", a, b)
+        end,
+    })
+end, config.styles)
+
+local transparent_bg = setmetatable({}, {
+    __add = function(a)
+        a.bg = config.transparent_background and p.none or a.bg
+        return a
+    end,
+})
+
+local function gamma(value)
+    return setmetatable({}, {
+        __add = function(a)
+            return utils.color_gamma(a, value)
+        end,
+    })
 end
 
-hl.predef = {
+M.highlights = {
     Fg = { fg = p.fg },
     Grey = { fg = p.grey },
     Red = { fg = p.red },
@@ -28,23 +43,15 @@ hl.predef = {
     Green = { fg = p.green },
     Blue = { fg = p.blue },
     Purple = { fg = p.purple },
-    BlueItalic = { fg = p.blue, italic = cfg.italic },
-    GreenItalic = { fg = p.green, italic = cfg.italic },
-    OrangeItalic = { fg = p.orange, italic = cfg.italic },
-    RedItalic = { fg = p.red, italic = cfg.italic },
-    YellowItalic = { fg = p.yellow, italic = cfg.italic },
-}
-
-hl.common = {
-    Normal = { fg = p.fg, bg = cfg.bg and p.none or p.bg0 },
-    NormalNC = { fg = p.fg, bg = cfg.bg and p.none or p.bg0 },
-    NormalSB = { fg = p.fg, bg = cfg.bg and p.none or p.bg0 },
-    NormalFloat = { fg = p.fg, bg = cfg.bg and p.none or p.bg0 },
-    Terminal = { fg = p.fg, bg = cfg.bg and p.none or p.bg0 },
-    EndOfBuffer = { fg = p.bg2, bg = cfg.bg and p.none or p.bg0 },
-    FoldColumn = { fg = p.fg, bg = cfg.bg and p.none or p.bg1 },
-    Folded = { fg = p.fg, bg = cfg.bg and p.none or p.bg1 },
-    SignColumn = { fg = p.fg, bg = cfg.bg and p.none or p.bg0 },
+    Normal = { fg = p.fg, bg = p.bg0 } + transparent_bg,
+    NormalNC = { fg = p.fg, bg = p.bg0 } + transparent_bg,
+    NormalSB = { fg = p.fg, bg = p.bg0 } + transparent_bg,
+    NormalFloat = { fg = p.fg, bg = p.bg0 } + transparent_bg,
+    Terminal = { fg = p.fg, bg = p.bg0 } + transparent_bg,
+    EndOfBuffer = { fg = p.bg2, bg = p.bg0 } + transparent_bg,
+    FoldColumn = { fg = p.fg, bg = p.bg1 } + transparent_bg,
+    Folded = { fg = p.fg, bg = p.bg1 } + transparent_bg,
+    SignColumn = { fg = p.fg, bg = p.bg0 } + transparent_bg,
     ToolbarLine = { fg = p.fg },
     Cursor = { reverse = true },
     vCursor = { reverse = true },
@@ -98,335 +105,314 @@ hl.common = {
     debugBreakpoint = { fg = p.bg0, bg = p.red },
     ToolbarButton = { fg = p.bg0, bg = p.bg_blue },
     FocusedSymbol = { bg = p.bg3 },
-}
 
-hl.syntax = {
-    Type = hl.predef.BlueItalic,
-    Structure = hl.predef.BlueItalic,
-    StorageClass = hl.predef.BlueItalic,
-    Identifier = hl.predef.OrangeItalic,
-    Constant = hl.predef.OrangeItalic,
-    PreProc = hl.predef.Red,
-    PreCondit = hl.predef.Red,
-    Include = hl.predef.Red,
-    Keyword = hl.predef.Red,
-    Define = hl.predef.Red,
-    Typedef = hl.predef.Red,
-    Exception = hl.predef.Red,
-    Conditional = hl.predef.Red,
-    Repeat = hl.predef.Red,
-    Statement = hl.predef.Red,
-    Macro = hl.predef.Purple,
-    Error = hl.predef.Red,
-    Label = hl.predef.Purple,
-    Special = hl.predef.Purple,
-    SpecialChar = hl.predef.Purple,
-    Boolean = hl.predef.Purple,
-    String = hl.predef.Yellow,
-    Character = hl.predef.Yellow,
-    Number = hl.predef.Purple,
-    Float = hl.predef.Purple,
-    Function = hl.predef.Green,
-    Operator = hl.predef.Red,
-    Title = hl.predef.Yellow,
-    Tag = hl.predef.Orange,
-    Delimiter = hl.predef.Fg,
-    Comment = { fg = p.bg4, italic = cfg.italic_comment },
-    SpecialComment = { fg = p.bg4, italic = cfg.italic_comment },
-    Todo = { fg = p.blue, italic = cfg.italic_comment },
-}
+    Type = { fg = p.blue } + styles.keywords,
+    Structure = { fg = p.blue } + styles.keywords,
+    StorageClass = { fg = p.blue } + styles.keywords,
+    Identifier = { fg = p.orange } + styles.identifiers,
+    Constant = { fg = p.orange } + styles.variables,
+    PreProc = { fg = p.red },
+    PreCondit = { fg = p.red },
+    Include = { fg = p.red },
+    Keyword = { fg = p.red } + styles.keywords,
+    Define = { fg = p.red },
+    Typedef = { fg = p.red },
+    Exception = { fg = p.red },
+    Conditional = { fg = p.red },
+    Repeat = { fg = p.red },
+    Statement = { fg = p.red },
+    Macro = { fg = p.purple },
+    Error = { fg = p.red },
+    Label = { fg = p.purple },
+    Special = { fg = p.purple },
+    SpecialChar = { fg = p.purple },
+    Boolean = { fg = p.purple },
+    String = { fg = p.yellow },
+    Character = { fg = p.yellow },
+    Number = { fg = p.purple },
+    Float = { fg = p.purple },
+    Function = { fg = p.green } + styles.functions,
+    Operator = { fg = p.red },
+    Title = { fg = p.yellow },
+    Tag = { fg = p.orange },
+    Delimiter = { fg = p.fg },
+    Comment = { fg = p.bg4 } + styles.comments,
+    SpecialComment = { fg = p.bg4 } + styles.comments,
+    Todo = { fg = p.blue } + styles.comments,
 
-hl.plugins.lsp = {
-    LspCxxHlGroupEnumConstant = hl.predef.Orange,
-    LspCxxHlGroupMemberVariable = hl.predef.Orange,
-    LspCxxHlGroupNamespace = hl.predef.Blue,
-    LspCxxHlSkippedRegion = hl.predef.Grey,
-    LspCxxHlSkippedRegionBeginEnd = hl.predef.Red,
-    LspDiagnosticsDefaultError = { fg = u.color_gamma(p.red, 0.5) },
-    LspDiagnosticsDefaultHint = { fg = u.color_gamma(p.purple, 0.5) },
-    LspDiagnosticsDefaultInformation = { fg = u.color_gamma(p.blue, 0.5) },
-    LspDiagnosticsDefaultWarning = { fg = u.color_gamma(p.yellow, 0.5) },
-    LspDiagnosticsUnderlineError = { underline = true, sp = u.color_gamma(p.red, 0.5) },
-    LspDiagnosticsUnderlineHint = { underline = true, sp = u.color_gamma(p.purple, 0.5) },
-    LspDiagnosticsUnderlineInformation = { underline = true, sp = u.color_gamma(p.blue, 0.5) },
-    LspDiagnosticsUnderlineWarning = { underline = true, sp = u.color_gamma(p.yellow, 0.5) },
-    DiagnosticSignError = { fg = u.color_gamma(p.red, 0.5) },
-    DiagnosticSignHint = { fg = u.color_gamma(p.purple, 0.5) },
-    DiagnosticSignInfo = { fg = u.color_gamma(p.blue, 0.5) },
-    DiagnosticSignWarn = { fg = u.color_gamma(p.yellow, 0.5) },
+    -- whichkey
+    WhichKey = { fg = p.red },
+    WhichKeyDesc = { fg = p.blue },
+    WhichKeyGroup = { fg = p.orange },
+    WhichKeySeperator = { fg = p.green },
+
+    -- flash
+    FlashBackdrop = { fg = p.bg4 },
+    FlashLabel = { fg = p.bg0, bg = p.blue, bold = true },
+
+    -- gitgutter
+    GitGutterAdd = { fg = p.diff_green },
+    GitGutterChange = { fg = p.diff_blue },
+    GitGutterDelete = { fg = p.diff_red },
+
+    -- diffview
+    DiffviewFilePanelTitle = { fg = p.blue, bold = true },
+    DiffviewFilePanelCounter = { fg = p.purple, bold = true },
+    DiffviewFilePanelFileName = { fg = p.fg },
+    DiffviewNormal = { link = "Normal" },
+    DiffviewCursorLine = { link = "CursorLine" },
+    DiffviewVertSplit = { link = "VertSplit" },
+    DiffviewSignColumn = { link = "SignColumn" },
+    DiffviewStatusLine = { link = "StatusLine" },
+    DiffviewStatusLineNC = { link = "StatusLineNC" },
+    DiffviewEndOfBuffer = { link = "EndOfBuffer" },
+    DiffviewFilePanelRootPath = { fg = p.grey },
+    DiffviewFilePanelPath = { fg = p.grey },
+    DiffviewFilePanelInsertions = { fg = p.green },
+    DiffviewFilePanelDeletions = { fg = p.red },
+    DiffviewStatusAdded = { fg = p.green },
+    DiffviewStatusUntracked = { fg = p.blue },
+    DiffviewStatusModified = { fg = p.blue },
+    DiffviewStatusRenamed = { fg = p.blue },
+    DiffviewStatusCopied = { fg = p.blue },
+    DiffviewStatusTypeChange = { fg = p.blue },
+    DiffviewStatusUnmerged = { fg = p.blue },
+    DiffviewStatusUnknown = { fg = p.red },
+    DiffviewStatusDeleted = { fg = p.red },
+    DiffviewStatusBroken = { fg = p.red },
+
+    -- comments
+    commentTSDanger = { fg = p.red } + styles.comments,
+    commentTSNote = { fg = p.blue } + styles.comments,
+    commentTSWarning = { fg = p.yellow } + styles.comments,
+
+    -- treesitter
+    ["@annotation"] = { link = "PreProc", default = true },
+    ["@attribute"] = { link = "PreProc", default = true },
+    ["@boolean"] = { link = "Boolean", default = true },
+    ["@character"] = { link = "Character", default = true },
+    ["@character.special"] = { link = "SpecialChar", default = true },
+    ["@comment"] = { link = "Comment", default = true },
+    ["@conditional"] = { link = "Conditional", default = true },
+    ["@constant"] = { link = "Constant", default = true },
+    ["@constant.builtin"] = { link = "Special", default = true },
+    ["@constant.macro"] = { link = "Define", default = true },
+    ["@constructor"] = { link = "Special", default = true },
+    ["@debug"] = { link = "Debug", default = true },
+    ["@define"] = { link = "Define", default = true },
+    ["@defaultLibrary"] = { link = "Special", default = true },
+    ["@error"] = { link = "Error", default = true },
+    ["@exception"] = { link = "Exception", default = true },
+    ["@field"] = { link = "Identifier", default = true },
+    ["@float"] = { link = "Float", default = true },
+    ["@function"] = { link = "Function", default = true },
+    ["@function.builtin"] = { link = "Special", default = true },
+    ["@function.call"] = { link = "@function", default = true },
+    ["@function.macro"] = { link = "Macro", default = true },
+    ["@include"] = { link = "Include", default = true },
+    ["@keyword"] = { link = "Keyword", default = true },
+    ["@keyword.function"] = { link = "Keyword", default = true },
+    ["@keyword.operator"] = { link = "@operator", default = true },
+    ["@keyword.return"] = { link = "@keyword", default = true },
+    ["@label"] = { link = "Label", default = true },
+    ["@method"] = { link = "Function", default = true },
+    ["@method.call"] = { link = "@method", default = true },
+    ["@namespace"] = { link = "Include", default = true },
+    ["@none"] = { bg = "NONE", fg = "NONE", default = true },
+    ["@number"] = { link = "Number", default = true },
+    ["@operator"] = { link = "Operator", default = true },
+    ["@parameter"] = { link = "Identifier", default = true },
+    ["@parameter.reference"] = { link = "@parameter", default = true },
+    ["@preproc"] = { link = "PreProc", default = true },
+    ["@property"] = { link = "Identifier", default = true },
+    ["@punctuation.bracket"] = { link = "Delimiter", default = true },
+    ["@punctuation.delimiter"] = { link = "Delimiter", default = true },
+    ["@punctuation.special"] = { link = "Delimiter", default = true },
+    ["@repeat"] = { link = "Repeat", default = true },
+    ["@storageclass"] = { link = "StorageClass", default = true },
+    ["@string"] = { link = "String", default = true },
+    ["@string.escape"] = { link = "SpecialChar", default = true },
+    ["@string.regex"] = { link = "String", default = true },
+    ["@string.special"] = { link = "SpecialChar", default = true },
+    ["@symbol"] = { link = "Identifier", default = true },
+    ["@tag"] = { link = "Label", default = true },
+    ["@tag.attribute"] = { link = "@property", default = true },
+    ["@tag.delimiter"] = { link = "Delimiter", default = true },
+    ["@text"] = { link = "@none", default = true },
+    ["@text.danger"] = { link = "WarningMsg", default = true },
+    ["@text.emphasis"] = { italic = true, default = true },
+    ["@text.environment"] = { link = "Macro", default = true },
+    ["@text.environment.name"] = { link = "Type", default = true },
+    ["@text.literal"] = { link = "String", default = true },
+    ["@text.math"] = { link = "Special", default = true },
+    ["@text.note"] = { link = "SpecialComment", default = true },
+    ["@text.reference"] = { link = "Constant", default = true },
+    ["@text.strike"] = { strikethrough = true, default = true },
+    ["@text.strong"] = { bold = true, default = true },
+    ["@text.title"] = { link = "Title", default = true },
+    ["@text.todo"] = { link = "Todo", default = true },
+    ["@text.underline"] = { underline = true, default = true },
+    ["@text.uri"] = { link = "Underlined", default = true },
+    ["@text.warning"] = { link = "Todo", default = true },
+    ["@todo"] = { link = "Todo", default = true },
+    ["@type"] = { link = "Type", default = true },
+    ["@type.builtin"] = { link = "Type", default = true },
+    ["@type.definition"] = { link = "Typedef", default = true },
+    ["@type.qualifier"] = { link = "Type", default = true },
+    ["@variable"] = { fg = p.fg, default = true } + styles.variables,
+    ["@variable.builtin"] = { fg = p.purple, default = true },
+
+    -- lsp
+    LspCxxHlGroupEnumConstant = { fg = p.orange },
+    LspCxxHlGroupMemberVariable = { fg = p.orange },
+    LspCxxHlGroupNamespace = { fg = p.blue },
+    LspCxxHlSkippedRegion = { fg = p.grey },
+    LspCxxHlSkippedRegionBeginEnd = { fg = p.red },
+    LspDiagnosticsDefaultError = { fg = p.red + gamma(0.5) },
+    LspDiagnosticsDefaultHint = { fg = p.purple + gamma(0.5) },
+    LspDiagnosticsDefaultInformation = { fg = p.blue + gamma(0.5) },
+    LspDiagnosticsDefaultWarning = { fg = p.yellow + gamma(0.5) },
+    LspDiagnosticsUnderlineError = { underline = true, sp = p.red + gamma(0.5) },
+    LspDiagnosticsUnderlineHint = {
+        underline = true,
+        sp = p.purple + gamma(0.5),
+    },
+    LspDiagnosticsUnderlineInformation = {
+        underline = true,
+        sp = p.blue + gamma(0.5),
+    },
+    LspDiagnosticsUnderlineWarning = {
+        underline = true,
+        sp = p.yellow + gamma(0.5),
+    },
+    DiagnosticSignError = { fg = p.red + gamma(0.5) },
+    DiagnosticSignHint = { fg = p.purple + gamma(0.5) },
+    DiagnosticSignInfo = { fg = p.blue + gamma(0.5) },
+    DiagnosticSignWarn = { fg = p.yellow + gamma(0.5) },
     LspReferenceRead = { bg = p.bg3 },
     LspReferenceWrite = { bg = p.bg3 },
     LspReferenceText = { bg = p.bg3 },
     LspInfoBorder = { fg = p.bg4 },
-}
 
-hl.plugins.whichkey = {
-    WhichKey = hl.predef.Red,
-    WhichKeyDesc = hl.predef.Blue,
-    WhichKeyGroup = hl.predef.Orange,
-    WhichKeySeperator = hl.predef.Green,
-}
+    -- lsp semantic tokens
+    LspNamespace = { link = "@namespace" },
+    LspType = { link = "@type" },
+    LspClass = { link = "@type" },
+    LspEnum = { link = "@constant" },
+    LspInterface = { link = "@constant" },
+    LspStruct = { link = "@constant" },
+    LspTypeParameter = { link = "@type" },
+    LspParameter = { link = "@parameter" },
+    LspVariable = { link = "@variable" },
+    LspProperty = { link = "@property" },
+    LspEnumMember = { link = "@constant" },
+    LspEvent = { link = "@constant" },
+    LspFunction = { link = "@function" },
+    LspMethod = { link = "@method" },
+    LspMacro = { link = "@constant.macro" },
+    LspKeyword = { link = "@keyword" },
+    LspModifier = { link = "TSModifier" },
+    LspComment = { link = "@comment" },
+    LspString = { link = "@string" },
+    LspNumber = { link = "@number" },
+    LspRegexp = { link = "@string.regex" },
+    LspOperator = { link = "@operator" },
+    LspDecorator = { link = "@symbol" },
+    LspDeprecated = { link = "@text.strike" },
 
-hl.plugins.flash = {
-    FlashBackdrop = { fg = p.bg4 },
-    FlashLabel = { fg = p.bg0, bg = p.blue, bold=true },
-}
+    -- cmp
+    CmpItemKindDefault = { fg = p.blue },
+    CmpItemAbbrMatch = { fg = p.blue },
+    CmpItemAbbrMatchFuzzy = { fg = p.blue },
+    CmpItemKindKeyword = { fg = p.fg },
+    CmpItemKindVariable = { fg = p.cyan },
+    CmpItemKindConstant = { fg = p.cyan },
+    CmpItemKindReference = { fg = p.cyan },
+    CmpItemKindValue = { fg = p.cyan },
+    CmpItemKindFunction = { fg = p.purple },
+    CmpItemKindMethod = { fg = p.purple },
+    CmpItemKindConstructor = { fg = p.purple },
+    CmpItemKindClass = { fg = p.yellow },
+    CmpItemKindInterface = { fg = p.yellow },
+    CmpItemKindStruct = { fg = p.yellow },
+    CmpItemKindEvent = { fg = p.yellow },
+    CmpItemKindEnum = { fg = p.yellow },
+    CmpItemKindUnit = { fg = p.yellow },
+    CmpItemKindModule = { fg = p.yellow },
+    CmpItemKindProperty = { fg = p.green },
+    CmpItemKindField = { fg = p.green },
+    CmpItemKindTypeParameter = { fg = p.green },
+    CmpItemKindEnumMember = { fg = p.green },
+    CmpItemKindOperator = { fg = p.green },
+    CmpItemKindSnippet = { fg = p.red },
 
-hl.plugins.gitgutter = {
-    GitGutterAdd = { fg = p.diff_green },
-    GitGutterChange = { fg = p.diff_blue },
-    GitGutterDelete = { fg = p.diff_red },
-}
+    -- coc
+    CocErrorSign = { fg = p.red + gamma(0.5) },
+    CocHintSign = { fg = p.red + gamma(0.5) },
+    CocInfoSign = { fg = p.red + gamma(0.5) },
+    CocWarningSign = { fg = p.red + gamma(0.5) },
+    FgCocErrorFloatBgCocFloating = { fg = p.red + gamma(0.5), bg = p.bg2 },
+    FgCocHintFloatBgCocFloating = { fg = p.purple + gamma(0.5), bg = p.bg2 },
+    FgCocInfoFloatBgCocFloating = { fg = p.blue + gamma(0.5), bg = p.bg2 },
+    FgCocWarningFloatBgCocFloating = { fg = p.yellow + gamma(0.5), bg = p.bg2 },
 
-hl.plugins.diffview = {
-    DiffviewFilePanelTitle = { fg = p.blue, bold = true },
-    DiffviewFilePanelCounter = { fg = p.purple, bold = true },
-    DiffviewFilePanelFileName = hl.predef.Fg,
-    DiffviewNormal = hl.common.Normal,
-    DiffviewCursorLine = hl.common.CursorLine,
-    DiffviewVertSplit = hl.common.VertSplit,
-    DiffviewSignColumn = hl.common.SignColumn,
-    DiffviewStatusLine = hl.common.StatusLine,
-    DiffviewStatusLineNC = hl.common.StatusLineNC,
-    DiffviewEndOfBuffer = hl.common.EndOfBuffer,
-    DiffviewFilePanelRootPath = hl.predef.Grey,
-    DiffviewFilePanelPath = hl.predef.Grey,
-    DiffviewFilePanelInsertions = hl.predef.Green,
-    DiffviewFilePanelDeletions = hl.predef.Red,
-    DiffviewStatusAdded = hl.predef.Green,
-    DiffviewStatusUntracked = hl.predef.Blue,
-    DiffviewStatusModified = hl.predef.Blue,
-    DiffviewStatusRenamed = hl.predef.Blue,
-    DiffviewStatusCopied = hl.predef.Blue,
-    DiffviewStatusTypeChange = hl.predef.Blue,
-    DiffviewStatusUnmerged = hl.predef.Blue,
-    DiffviewStatusUnknown = hl.predef.Red,
-    DiffviewStatusDeleted = hl.predef.Red,
-    DiffviewStatusBroken = hl.predef.Red,
-}
+    -- gitsigns
+    GitSignsAdd = { fg = p.green },
+    GitSignsAddLn = { fg = p.green },
+    GitSignsAddNr = { fg = p.green },
+    GitSignsChange = { fg = p.blue },
+    GitSignsChangeLn = { fg = p.blue },
+    GitSignsChangeNr = { fg = p.blue },
+    GitSignsDelete = { fg = p.red },
+    GitSignsDeleteLn = { fg = p.red },
+    GitSignsDeleteNr = { fg = p.red },
 
-hl.plugins.treesitter = {
-    commentTSDanger = hl.predef.RedItalic,
-    commentTSNote = hl.predef.BlueItalic,
-    commentTSWarning = hl.predef.YellowItalic,
-}
-
-if u.check_min_version(0, 8, 0) then
-    hl.plugins.treesitter = {
-        ["@annotation"] = { link = "PreProc" },
-        ["@attribute"] = { link = "PreProc" },
-        ["@boolean"] = { link = "Boolean" },
-        ["@character"] = { link = "Character" },
-        ["@character.special"] = { link = "SpecialChar" },
-        ["@comment"] = { link = "Comment" },
-        ["@conditional"] = { link = "Conditional" },
-        ["@constant"] = { link = "Constant" },
-        ["@constant.builtin"] = { link = "Special" },
-        ["@constant.macro"] = { link = "Define" },
-        ["@constructor"] = { link = "Special" },
-        ["@debug"] = { link = "Debug" },
-        ["@define"] = { link = "Define" },
-        ["@defaultLibrary"] = { link = "Special" },
-        ["@error"] = { link = "Error" },
-        ["@exception"] = { link = "Exception" },
-        ["@field"] = { link = "Identifier" },
-        ["@float"] = { link = "Float" },
-        ["@function"] = { link = "Function" },
-        ["@function.builtin"] = { link = "Special" },
-        ["@function.call"] = { link = "@function" },
-        ["@function.macro"] = { link = "Macro" },
-        ["@include"] = { link = "Include" },
-        ["@keyword"] = { link = "Keyword" },
-        ["@keyword.function"] = { link = "Keyword" },
-        ["@keyword.operator"] = { link = "@operator" },
-        ["@keyword.return"] = { link = "@keyword" },
-        ["@label"] = { link = "Label" },
-        ["@method"] = { link = "Function" },
-        ["@method.call"] = { link = "@method" },
-        ["@namespace"] = { link = "Include" },
-        ["@none"] = { bg = "NONE", fg = "NONE" },
-        ["@number"] = { link = "Number" },
-        ["@operator"] = { link = "Operator" },
-        ["@parameter"] = { link = "Identifier" },
-        ["@parameter.reference"] = { link = "@parameter" },
-        ["@preproc"] = { link = "PreProc" },
-        ["@property"] = { link = "Identifier" },
-        ["@punctuation.bracket"] = { link = "Delimiter" },
-        ["@punctuation.delimiter"] = { link = "Delimiter" },
-        ["@punctuation.special"] = { link = "Delimiter" },
-        ["@repeat"] = { link = "Repeat" },
-        ["@storageclass"] = { link = "StorageClass" },
-        ["@string"] = { link = "String" },
-        ["@string.escape"] = { link = "SpecialChar" },
-        ["@string.regex"] = { link = "String" },
-        ["@string.special"] = { link = "SpecialChar" },
-        ["@symbol"] = { link = "Identifier" },
-        ["@tag"] = { link = "Label" },
-        ["@tag.attribute"] = { link = "@property" },
-        ["@tag.delimiter"] = { link = "Delimiter" },
-        ["@text"] = { link = "@none" },
-        ["@text.danger"] = { link = "WarningMsg" },
-        ["@text.emphasis"] = { italic = true },
-        ["@text.environment"] = { link = "Macro" },
-        ["@text.environment.name"] = { link = "Type" },
-        ["@text.literal"] = { link = "String" },
-        ["@text.math"] = { link = "Special" },
-        ["@text.note"] = { link = "SpecialComment" },
-        ["@text.reference"] = { link = "Constant" },
-        ["@text.strike"] = { strikethrough = true },
-        ["@text.strong"] = { bold = true },
-        ["@text.title"] = { link = "Title" },
-        ["@text.todo"] = { link = "Todo" },
-        ["@text.underline"] = { underline = true },
-        ["@text.uri"] = { link = "Underlined" },
-        ["@text.warning"] = { link = "Todo" },
-        ["@todo"] = { link = "Todo" },
-        ["@type"] = { link = "Type" },
-        ["@type.builtin"] = { link = "Type" },
-        ["@type.definition"] = { link = "Typedef" },
-        ["@type.qualifier"] = { link = "Type" },
-        ["@variable"] = { link = "Normal" },
-        ["@variable.builtin"] = { link = "Special" },
-    }
-    make_default(hl.plugins.treesitter)
-
-    hl.plugins.lsp_semantic_tokens = {
-        LspNamespace = { link = "@namespace" },
-        LspType = { link = "@type" },
-        LspClass = { link = "@type" },
-        LspEnum = { link = "@constant" },
-        LspInterface = { link = "@constant" },
-        LspStruct = { link = "@constant" },
-        LspTypeParameter = { link = "@type" },
-        LspParameter = { link = "@parameter" },
-        LspVariable = { link = "@variable" },
-        LspProperty = { link = "@property" },
-        LspEnumMember = { link = "@constant" },
-        LspEvent = { link = "@constant" },
-        LspFunction = { link = "@function" },
-        LspMethod = { link = "@method" },
-        LspMacro = { link = "@constant.macro" },
-        LspKeyword = { link = "@keyword" },
-        LspModifier = { link = "TSModifier" },
-        LspComment = { link = "@comment" },
-        LspString = { link = "@string" },
-        LspNumber = { link = "@number" },
-        LspRegexp = { link = "@string.regex" },
-        LspOperator = { link = "@operator" },
-        LspDecorator = { link = "@symbol" },
-        LspDeprecated = { link = "@text.strike" },
-    }
-end
-
-hl.plugins.cmp = {
-    CmpItemKindDefault = { fg = p.blue, bg = p.none },
-    CmpItemAbbrMatch = { fg = p.blue, bg = p.none },
-    CmpItemAbbrMatchFuzzy = { fg = p.blue, bg = p.none },
-
-    CmpItemKindKeyword = { fg = p.fg, bg = p.none },
-
-    CmpItemKindVariable = { fg = p.cyan, bg = p.none },
-    CmpItemKindConstant = { fg = p.cyan, bg = p.none },
-    CmpItemKindReference = { fg = p.cyan, bg = p.none },
-    CmpItemKindValue = { fg = p.cyan, bg = p.none },
-
-    CmpItemKindFunction = { fg = p.purple, bg = p.none },
-    CmpItemKindMethod = { fg = p.purple, bg = p.none },
-    CmpItemKindConstructor = { fg = p.purple, bg = p.none },
-
-    CmpItemKindClass = { fg = p.yellow, bg = p.none },
-    CmpItemKindInterface = { fg = p.yellow, bg = p.none },
-    CmpItemKindStruct = { fg = p.yellow, bg = p.none },
-    CmpItemKindEvent = { fg = p.yellow, bg = p.none },
-    CmpItemKindEnum = { fg = p.yellow, bg = p.none },
-    CmpItemKindUnit = { fg = p.yellow, bg = p.none },
-    CmpItemKindModule = { fg = p.yellow, bg = p.none },
-
-    CmpItemKindProperty = { fg = p.green, bg = p.none },
-    CmpItemKindField = { fg = p.green, bg = p.none },
-    CmpItemKindTypeParameter = { fg = p.green, bg = p.none },
-    CmpItemKindEnumMember = { fg = p.green, bg = p.none },
-    CmpItemKindOperator = { fg = p.green, bg = p.none },
-
-    CmpItemKindSnippet = { fg = p.red, bg = p.none },
-}
-
-hl.plugins.coc = {
-    CocErrorSign = { fg = u.color_gamma(p.red, 0.5) },
-    CocHintSign = { fg = u.color_gamma(p.red, 0.5) },
-    CocInfoSign = { fg = u.color_gamma(p.red, 0.5) },
-    CocWarningSign = { fg = u.color_gamma(p.red, 0.5) },
-    FgCocErrorFloatBgCocFloating = { fg = u.color_gamma(p.red, 0.5), bg = p.bg2 },
-    FgCocHintFloatBgCocFloating = { fg = u.color_gamma(p.purple, 0.5), bg = p.bg2 },
-    FgCocInfoFloatBgCocFloating = { fg = u.color_gamma(p.blue, 0.5), bg = p.bg2 },
-    FgCocWarningFloatBgCocFloating = { fg = u.color_gamma(p.yellow, 0.5), bg = p.bg2 },
-}
-
-hl.plugins.gitsigns = {
-    GitSignsAdd = hl.predef.Green,
-    GitSignsAddLn = hl.predef.Green,
-    GitSignsAddNr = hl.predef.Green,
-    GitSignsChange = hl.predef.Blue,
-    GitSignsChangeLn = hl.predef.Blue,
-    GitSignsChangeNr = hl.predef.Blue,
-    GitSignsDelete = hl.predef.Red,
-    GitSignsDeleteLn = hl.predef.Red,
-    GitSignsDeleteNr = hl.predef.Red,
-}
-
-hl.langs.markdown = {
-    markdownBlockquote = hl.predef.Grey,
+    -- markdown
+    markdownBlockquote = { fg = p.grey },
     markdownBold = { fg = p.none, bold = true },
-    markdownBoldDelimiter = hl.predef.Grey,
-    markdownCode = hl.predef.Yellow,
-    markdownCodeBlock = hl.predef.Yellow,
-    markdownCodeDelimiter = hl.predef.Green,
+    markdownBoldDelimiter = { fg = p.grey },
+    markdownCode = { fg = p.yellow },
+    markdownCodeBlock = { fg = p.yellow },
+    markdownCodeDelimiter = { fg = p.green },
     markdownH1 = { fg = p.red, bold = true },
     markdownH2 = { fg = p.red, bold = true },
     markdownH3 = { fg = p.red, bold = true },
     markdownH4 = { fg = p.red, bold = true },
     markdownH5 = { fg = p.red, bold = true },
     markdownH6 = { fg = p.red, bold = true },
-    markdownHeadingDelimiter = hl.predef.Grey,
-    markdownHeadingRule = hl.predef.Grey,
-    markdownId = hl.predef.Yellow,
-    markdownIdDeclaration = hl.predef.Red,
+    markdownHeadingDelimiter = { fg = p.grey },
+    markdownHeadingRule = { fg = p.grey },
+    markdownId = { fg = p.yellow },
+    markdownIdDeclaration = { fg = p.red },
     markdownItalic = { fg = p.none, italic = true },
     markdownItalicDelimiter = { fg = p.grey, italic = true },
-    markdownLinkDelimiter = hl.predef.Grey,
-    markdownLinkText = hl.predef.Red,
-    markdownLinkTextDelimiter = hl.predef.Grey,
-    markdownListMarker = hl.predef.Red,
-    markdownOrderedListMarker = hl.predef.Red,
-    markdownRule = hl.predef.Purple,
+    markdownLinkDelimiter = { fg = p.grey },
+    markdownLinkText = { fg = p.red },
+    markdownLinkTextDelimiter = { fg = p.grey },
+    markdownListMarker = { fg = p.red },
+    markdownOrderedListMarker = { fg = p.red },
+    markdownRule = { fg = p.purple },
     markdownUrl = { fg = p.blue, underline = true },
-    markdownUrlDelimiter = hl.predef.Grey,
-    markdownUrlTitleDelimiter = hl.predef.Green,
-}
+    markdownUrlDelimiter = { fg = p.grey },
+    markdownUrlTitleDelimiter = { fg = p.green },
 
-hl.langs.scala = {
-    scalaNameDefinition = hl.predef.Fg,
-    scalaInterpolationBoundary = hl.predef.Purple,
-    scalaInterpolation = hl.predef.Purple,
-    scalaTypeOperator = hl.predef.Red,
-    scalaOperator = hl.predef.Red,
-    scalaKeywordModifier = hl.predef.Red,
+    -- scala
+    scalaNameDefinition = { fg = p.fg },
+    scalaInterpolationBoundary = { fg = p.purple },
+    scalaInterpolation = { fg = p.purple },
+    scalaTypeOperator = { fg = p.red },
+    scalaOperator = { fg = p.red },
+    scalaKeywordModifier = { fg = p.red },
 }
-
-local function load_sync()
-    load_highlights(hl.predef)
-    load_highlights(hl.common)
-    load_highlights(hl.syntax)
-    for _, group in pairs(hl.langs) do
-        load_highlights(group)
-    end
-    for _, group in pairs(hl.plugins) do
-        load_highlights(group)
-    end
-end
 
 function M.setup()
-    load_sync()
+    local highlights = type(config.custom_highlights) == "function"
+            and config.custom_highlights(M.highlights, p)
+        or config.custom_highlights
+    load_highlights(vim.tbl_extend("force", M.highlights, highlights))
+    if config.terminal_colors then
+        terminal.setup()
+    end
 end
 
 return M

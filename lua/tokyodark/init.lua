@@ -1,6 +1,3 @@
-local highlights = require("tokyodark.highlights")
-local terminal = require("tokyodark.terminal")
-
 local M = {}
 
 function M.colorscheme()
@@ -11,8 +8,9 @@ function M.colorscheme()
     vim.o.background = "dark"
     vim.o.termguicolors = true
     vim.g.colors_name = "tokyodark"
-    highlights.setup()
-    terminal.setup()
+    require("tokyodark.highlights").setup()
 end
+
+M.setup = require("tokyodark.config").setup
 
 return M
