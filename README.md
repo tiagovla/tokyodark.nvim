@@ -15,7 +15,7 @@ A clean dark theme written in lua for neovim (0.7.2 or older).
 
 Install with your favorite package manager:
 
-[lazy](https://github.com/wbthomason/lazy.nvim)
+[lazy](https://github.com/folke/lazy.nvim)
 
 ``` lua
 {
