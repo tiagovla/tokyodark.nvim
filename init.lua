@@ -1,1 +1,0 @@
-require('tokyodark.init').colorscheme()
