@@ -96,6 +96,7 @@ M.highlights = {
     TabLine = { fg = p.fg, bg = p.bg4 },
     TabLineFill = { fg = p.grey, bg = p.bg1 },
     TabLineSel = { fg = p.bg0, bg = p.bg_red },
+    WinSeparator = { fg = p.bg5 },
     VertSplit = { fg = p.bg5 },
     Visual = { bg = p.bg2 },
     VisualNOS = { fg = p.none, bg = p.bg2, underline = true },
