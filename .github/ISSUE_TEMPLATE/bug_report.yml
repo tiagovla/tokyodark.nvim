@@ -1,0 +1,15 @@
+name: Bug report
+description: Report a problem in tokyodark.nvim
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Please report the neovim version you are using. Additionally, use the minimal configuration [config.lua](https://github.com/tiagovla/tokyodark.nvim/blob/master/.github/config.lua) with `NVIM_APPNAME=tokyodark nvim -u config.lua` including relevant plugins.
+
+  - type: textarea
+    attributes:
+      label: "Description"
+      description: "A short description of the problem you are reporting."
+    validations:
+      required: true
