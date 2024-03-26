@@ -1,0 +1,29 @@
+name: Bug report
+description: Report a problem in tokyodark.nvim
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Use the minimal configuration [config.lua](https://github.com/tiagovla/tokyodark.nvim/blob/master/.github/config.lua) with `NVIM_APPNAME=tokyodark nvim -u config.lua`.
+
+  - type: textarea
+    attributes:
+      label: "Neovim version"
+      description: "Please report the neovim version you are using."
+    validations:
+      required: true
+
+  - type: textarea
+    attributes:
+      label: "Minimal configuration"
+      description: "Include a minimal configuration to reproduce the problem with relevant plugins if the minimum configuration provided is not enough."
+    validations:
+      required: false
+
+  - type: textarea
+    attributes:
+      label: "Description"
+      description: "A short description of the problem you are reporting."
+    validations:
+      required: true
