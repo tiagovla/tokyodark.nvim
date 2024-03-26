@@ -320,6 +320,20 @@ M.highlights = {
     LspOperator = { link = "@operator" },
     LspDecorator = { link = "@symbol" },
     LspDeprecated = { link = "@text.strike" },
+	["@lsp.type.namespace"] = { link = "@namespace", default = true },
+	["@lsp.type.type"] = { link = "@type", default = true },
+	["@lsp.type.class"] = { link = "@type", default = true },
+	["@lsp.type.enum"] = { link = "@type", default = true },
+	["@lsp.type.interface"] = { link = "@type", default = true },
+	["@lsp.type.struct"] = { link = "@structure", default = true },
+	["@lsp.type.parameter"] = { link = "@parameter", default = true },
+	["@lsp.type.variable"] = { link = "@variable", default = true },
+	["@lsp.type.property"] = { link = "@property", default = true },
+	["@lsp.type.enumMember"] = { link = "@constant", default = true },
+	["@lsp.type.function"] = { link = "@function", default = true },
+	["@lsp.type.method"] = { link = "@method", default = true },
+	["@lsp.type.macro"] = { link = "@macro", default = true },
+	["@lsp.type.decorator"] = { link = "@function", default = true },
 
     -- cmp
     CmpItemKindDefault = { fg = p.blue },
@@ -418,27 +432,6 @@ M.highlights = {
 }
 
 function M.setup()
-	if vim.fn.has("nvim-0.9") then
-		local lsp_highlights = {
-			["@lsp.type.namespace"] = { link = "@namespace", default = true },
-			["@lsp.type.type"] = { link = "@type", default = true },
-			["@lsp.type.class"] = { link = "@type", default = true },
-			["@lsp.type.enum"] = { link = "@type", default = true },
-			["@lsp.type.interface"] = { link = "@type", default = true },
-			["@lsp.type.struct"] = { link = "@structure", default = true },
-			["@lsp.type.parameter"] = { link = "@parameter", default = true },
-			["@lsp.type.variable"] = { link = "@variable", default = true },
-			["@lsp.type.property"] = { link = "@property", default = true },
-			["@lsp.type.enumMember"] = { link = "@constant", default = true },
-			["@lsp.type.function"] = { link = "@function", default = true },
-			["@lsp.type.method"] = { link = "@method", default = true },
-			["@lsp.type.macro"] = { link = "@macro", default = true },
-			["@lsp.type.decorator"] = { link = "@function", default = true },
-		}
-
-		M.highlights = utils.TableConcat(M.highlights, lsp_highlights)
-	end
-
     local highlights = type(config.custom_highlights) == "function"
             and config.custom_highlights(M.highlights, p)
         or config.custom_highlights
