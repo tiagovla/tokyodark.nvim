@@ -44,11 +44,4 @@ function U.check_min_version(major, minor, patch)
     return vim.version.gt({ major, minor, patch }, vim.version())
 end
 
-function U.TableConcat(t1, t2)
-	for i = 1, #t2 do
-		t1[#t1 + 1] = t2[i]
-	end
-	return t1
-end
-
 return U
