@@ -384,6 +384,15 @@ M.highlights = {
     GitSignsDeleteLn = { fg = p.red },
     GitSignsDeleteNr = { fg = p.red },
 
+    -- telescope
+    TelescopeBorder = { link = "FloatBorder" },
+    TelescopePreviewBorder = { fg = p.bg4 },
+    TelescopePreviewTitle = { fg = p.blue },
+    TelescopePromptBorder = { fg = p.bg4 },
+    TelescopePromptTitle = { fg = p.blue },
+    TelescopeResultsBorder = { fg = p.bg4 },
+    TelescopeResultsTitle = { fg = p.blue },
+
     -- markdown
     markdownBlockquote = { fg = p.grey },
     markdownBold = { fg = p.none, bold = true },
