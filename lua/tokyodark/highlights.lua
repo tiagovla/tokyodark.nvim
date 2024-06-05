@@ -106,6 +106,8 @@ M.highlights = {
     debugBreakpoint = { fg = p.bg0, bg = p.red },
     ToolbarButton = { fg = p.bg0, bg = p.bg_blue },
     FocusedSymbol = { bg = p.bg3 },
+    FloatBorder = { fg = p.bg4 },
+    FloatTitle = { fg = p.blue },
 
     Type = { fg = p.blue } + styles.keywords,
     Structure = { fg = p.blue } + styles.keywords,
