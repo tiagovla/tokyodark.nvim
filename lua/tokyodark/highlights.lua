@@ -503,6 +503,7 @@ M.highlights = {
     ["@lsp.type.method"] = { link = "@method", default = true },
     ["@lsp.type.macro"] = { link = "@constant.macro", default = true },
     ["@lsp.type.decorator"] = { link = "@function", default = true },
+    ["@lsp.mod.readonly.python"] = { link = "Constant" },
     LspInlayHint = { bg = p.bg1, fg = blend(p.fg, p.grey, 0.93) },
 
     -- symbol kinds
