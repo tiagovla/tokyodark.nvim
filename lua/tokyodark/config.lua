@@ -17,7 +17,9 @@ local default_config = {
 
 function config.setup(opts)
     for k, v in pairs(opts or {}) do
-        if type(v) == "table" then
+        if k == "styles" then
+            config[k] = vim.tbl_extend("force", {}, default_config.styles, v)
+        elseif type(v) == "table" then
             config[k] = {}
             for kk, vv in pairs(v) do
                 config[k][kk] = vv
