@@ -378,6 +378,80 @@ M.highlights = {
     LspInfoBorder = { fg = p.bg4 },
 
     -- lsp semantic tokens
+    ["@lsp.type.boolean"] = { link = "@boolean", default = true },
+    ["@lsp.type.builtinType"] = { link = "@type.builtin", default = true },
+    ["@lsp.type.comment"] = { link = "@comment", default = true },
+    ["@lsp.type.deriveHelper"] = { link = "@attribute", default = true },
+    ["@lsp.type.escapeSequence"] = { link = "@string.escape", default = true },
+    ["@lsp.type.formatSpecifier"] = { link = "@markup.list", default = true },
+    ["@lsp.type.generic"] = { link = "@variable", default = true },
+    ["@lsp.type.keyword"] = { link = "@keyword", default = true },
+    ["@lsp.type.lifetime"] = { link = "@keyword.storage", default = true },
+    ["@lsp.type.namespace.python"] = { link = "@variable", default = true },
+    ["@lsp.type.number"] = { link = "@number", default = true },
+    ["@lsp.type.operator"] = { link = "@operator", default = true },
+    ["@lsp.type.selfKeyword"] = { link = "@variable.builtin", default = true },
+    ["@lsp.type.selfTypeKeyword"] = {
+        link = "@variable.builtin",
+        default = true,
+    },
+    ["@lsp.type.string"] = { link = "@string", default = true },
+    ["@lsp.type.typeAlias"] = { link = "@type.definition", default = true },
+    ["@lsp.type.unresolvedReference"] = {
+        undercurl = true,
+        sp = p.red + gamma(0.5),
+        default = true,
+    },
+    ["@lsp.typemod.class.defaultLibrary"] = {
+        link = "@type.builtin",
+        default = true,
+    },
+    ["@lsp.typemod.enum.defaultLibrary"] = {
+        link = "@type.builtin",
+        default = true,
+    },
+    ["@lsp.typemod.enumMember.defaultLibrary"] = {
+        link = "@constant.builtin",
+        default = true,
+    },
+    ["@lsp.typemod.function.defaultLibrary"] = {
+        link = "@function.builtin",
+        default = true,
+    },
+    ["@lsp.typemod.keyword.async"] = {
+        link = "@keyword.coroutine",
+        default = true,
+    },
+    ["@lsp.typemod.keyword.injected"] = { link = "@keyword", default = true },
+    ["@lsp.typemod.macro.defaultLibrary"] = {
+        link = "@function.builtin",
+        default = true,
+    },
+    ["@lsp.typemod.method.defaultLibrary"] = {
+        link = "@function.builtin",
+        default = true,
+    },
+    ["@lsp.typemod.operator.injected"] = { link = "@operator", default = true },
+    ["@lsp.typemod.string.injected"] = { link = "@string", default = true },
+    ["@lsp.typemod.struct.defaultLibrary"] = {
+        link = "@type.builtin",
+        default = true,
+    },
+    ["@lsp.typemod.type.defaultLibrary"] = {
+        link = "@type.builtin",
+        default = true,
+    },
+    ["@lsp.typemod.typeAlias.defaultLibrary"] = {
+        link = "@type.builtin",
+        default = true,
+    },
+    ["@lsp.typemod.variable.callable"] = { link = "@function", default = true },
+    ["@lsp.typemod.variable.defaultLibrary"] = {
+        link = "@variable.builtin",
+        default = true,
+    },
+    ["@lsp.typemod.variable.injected"] = { link = "@variable", default = true },
+    ["@lsp.typemod.variable.static"] = { link = "@constant", default = true },
     LspNamespace = { link = "@namespace" },
     LspType = { link = "@type" },
     LspClass = { link = "@type" },
