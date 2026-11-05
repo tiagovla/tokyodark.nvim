@@ -34,6 +34,17 @@ local function gamma(value)
     })
 end
 
+local function blend(a, b, ratio)
+    local ar, ag, ab = utils.hex2rgb(a)
+    local br, bg, bb = utils.hex2rgb(b)
+    return string.format(
+        "#%02x%02x%02x",
+        math.floor(ar * ratio + br * (1 - ratio)),
+        math.floor(ag * ratio + bg * (1 - ratio)),
+        math.floor(ab * ratio + bb * (1 - ratio))
+    )
+end
+
 M.highlights = {
     Fg = { fg = p.fg },
     Grey = { fg = p.grey },
