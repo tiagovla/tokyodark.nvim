@@ -8,6 +8,11 @@ function M.colorscheme()
     vim.o.background = "dark"
     vim.o.termguicolors = true
     vim.g.colors_name = "tokyodark"
+    -- Rebuild configuration-dependent modules on every application.
+    package.loaded["tokyodark.palette"] = nil
+    package.loaded["tokyodark.terminal"] = nil
+    package.loaded["tokyodark.highlights"] = nil
+    package.loaded["lualine.themes.tokyodark"] = nil
     require("tokyodark.highlights").setup()
 end
 
