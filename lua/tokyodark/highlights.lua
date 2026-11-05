@@ -327,14 +327,14 @@ M.highlights = {
     ["@lsp.type.class"] = { link = "@type", default = true },
     ["@lsp.type.enum"] = { link = "@type", default = true },
     ["@lsp.type.interface"] = { link = "@type", default = true },
-    ["@lsp.type.struct"] = { link = "@structure", default = true },
+    ["@lsp.type.struct"] = { link = "@type", default = true },
     ["@lsp.type.parameter"] = { link = "@parameter", default = true },
     ["@lsp.type.variable"] = { link = "@variable", default = true },
     ["@lsp.type.property"] = { link = "@property", default = true },
     ["@lsp.type.enumMember"] = { link = "@constant", default = true },
     ["@lsp.type.function"] = { link = "@function", default = true },
     ["@lsp.type.method"] = { link = "@method", default = true },
-    ["@lsp.type.macro"] = { link = "@macro", default = true },
+    ["@lsp.type.macro"] = { link = "@constant.macro", default = true },
     ["@lsp.type.decorator"] = { link = "@function", default = true },
 
     -- cmp
