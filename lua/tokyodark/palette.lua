@@ -34,7 +34,8 @@ local palette = {
 local function gamma_correction(colors)
     local colors_corrected = {}
     for k, v in pairs(colors) do
-        colors_corrected[k] = utils.color_gamma(v, config.gamma)
+        local g = type(config.gamma) == "table" and (config.gamma[k] or config.gamma.default or 1.00) or config.gamma
+        colors_corrected[k] = utils.color_gamma(v, g)
     end
     return colors_corrected
 end

@@ -103,3 +103,19 @@ test("disabled terminal colors preserve existing values", function(theme)
     theme.colorscheme()
     assert(vim.g.terminal_color_1 == "#123456", "terminal color changed")
 end)
+
+-- Table gamma must override per-variable values in palette.lua
+-- Default must apply to unspecified variables.
+test("gamma table overrides per variable in palette.lua and uses default", function(theme)
+    theme.setup({ gamma = { red = 2, default = 1 } })
+    theme.colorscheme()
+    assert(vim.g.terminal_color_1 == "#f6a6b8", "table gamma for red was ignored")
+    assert(vim.g.terminal_color_7 == "#a0a8cd", "default gamma was ignored")
+end)
+
+-- Empty table gamma must fall back to default (1.00) without errors.
+test("empty table gamma preserves defaults", function(theme)
+    theme.setup({ gamma = {} })
+    theme.colorscheme()
+    assert(vim.g.terminal_color_1 == "#ee6d85", "default gamma was ignored/altered")
+end)
